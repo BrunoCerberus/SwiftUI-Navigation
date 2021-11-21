@@ -13,6 +13,7 @@
 		1534D0A82749D59000717CEF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1534D0A72749D59000717CEF /* Preview Assets.xcassets */; };
 		1534D0AF2749DCEB00717CEF /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534D0AE2749DCEB00717CEF /* Inventory.swift */; };
 		1534D0B22749F4A500717CEF /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1534D0B12749F4A500717CEF /* IdentifiedCollections */; };
+		1534D0B4274A9F6400717CEF /* SwiftUIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534D0B3274A9F6400717CEF /* SwiftUIHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		1534D0A42749D59000717CEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1534D0A72749D59000717CEF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1534D0AE2749DCEB00717CEF /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
+		1534D0B3274A9F6400717CEF /* SwiftUIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				1534D0AE2749DCEB00717CEF /* Inventory.swift */,
 				1534D0A42749D59000717CEF /* Assets.xcassets */,
 				1534D0A62749D59000717CEF /* Preview Content */,
+				1534D0B3274A9F6400717CEF /* SwiftUIHelpers.swift */,
 			);
 			path = "SwiftUI-Navigation";
 			sourceTree = "<group>";
@@ -149,6 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1534D0AF2749DCEB00717CEF /* Inventory.swift in Sources */,
+				1534D0B4274A9F6400717CEF /* SwiftUIHelpers.swift in Sources */,
 				1534D0A32749D58F00717CEF /* ContentView.swift in Sources */,
 				1534D0A12749D58F00717CEF /* SwiftUI_NavigationApp.swift in Sources */,
 			);

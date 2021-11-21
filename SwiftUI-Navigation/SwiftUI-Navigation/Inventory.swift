@@ -99,11 +99,10 @@ struct InventoryView: View {
 struct InventoryView_Previews: PreviewProvider {
     static var previews: some View {
         InventoryView(viewModel: InventoryViewModel(inventory: [
-            Item(
-                name: "Item",
-                color: .red,
-                status: .inStock(quantity: 4)
-            )
+            Item(name: "Keyboard", color: .blue, status: .inStock(quantity: 100)),
+            Item(name: "Charger", color: .yellow, status: .inStock(quantity: 20)),
+            Item(name: "Phone", color: .green, status: .outOfStock(isOnBackOrder: true)),
+            Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false)),
         ]))
     }
 }

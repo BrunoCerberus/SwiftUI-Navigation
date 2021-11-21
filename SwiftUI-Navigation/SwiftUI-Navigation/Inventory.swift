@@ -113,7 +113,7 @@ struct InventoryView: View {
         }
         .confirmationDialog(
             title: { Text($0.name) },
-            titleVisibility: .automatic,
+            titleVisibility: .visible,
             presenting: self.$viewModel.itemToDelete,
             actions: { item in
                 Button("Delete", role: .destructive) {

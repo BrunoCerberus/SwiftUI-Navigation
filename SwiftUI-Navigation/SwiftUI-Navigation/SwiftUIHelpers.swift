@@ -19,3 +19,20 @@ extension Binding {
         )
     }
 }
+
+extension View {
+    func alert<A: View, M: View, T>(
+        title: (T) -> Text,
+        presenting data: Binding<T?>,
+        @ViewBuilder actions: @escaping (T) -> A,
+        @ViewBuilder message: @escaping (T) -> M
+    ) -> some View {
+        self.alert(
+            data.wrappedValue.map(title) ?? Text(""),
+            isPresented: data.isPresent(),
+            presenting: data.wrappedValue,
+            actions: actions,
+            message: message
+        )
+    }
+}

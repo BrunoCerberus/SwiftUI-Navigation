@@ -1,0 +1,17 @@
+//
+//  SwiftUI_NavigationApp.swift
+//  SwiftUI-Navigation
+//
+//  Created by bruno on 20/11/21.
+//
+
+import SwiftUI
+
+@main
+struct SwiftUI_NavigationApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}

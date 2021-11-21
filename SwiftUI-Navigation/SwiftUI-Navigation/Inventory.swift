@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import IdentifiedCollections
 
 struct Item: Equatable, Identifiable {
   let id = UUID()
@@ -52,23 +53,26 @@ struct Item: Equatable, Identifiable {
 }
 
 final class InventoryViewModel: ObservableObject {
-    @Published var inventory: [Item]
+    @Published var inventory: IdentifiedArrayOf<Item>
+    @Published var itemToDelete: Item?
     
-    init(inventory: [Item] = []) {
+    init(
+        inventory: IdentifiedArrayOf<Item> = [],
+        itemToDelete: Item? = nil
+    ) {
         self.inventory = inventory
+        self.itemToDelete = itemToDelete
     }
     
     func delete(item: Item) {
         withAnimation {
-            inventory.removeAll { $0.id == item.id }
+            _ = inventory.remove(id: item.id)
         }
     }
 }
 
 struct InventoryView: View {
     @ObservedObject var viewModel: InventoryViewModel
-//    @State var deleteItemAlertIsPresented: Bool = false
-    @State var itemToDelete: Item?
     
     var body: some View {
         List {
@@ -94,7 +98,7 @@ struct InventoryView: View {
                             .border(Color.black, width: 1)
                     }
                     
-                    Button(action: { itemToDelete = item }) {
+                    Button(action: { viewModel.itemToDelete = item }) {
                         Image(systemName: "trash.fill")
                     }
                     .padding(.leading)
@@ -103,7 +107,7 @@ struct InventoryView: View {
                 .foregroundColor(item.status.isInStock ? nil : .gray)
             }
         }
-        .alert(item: $itemToDelete) { item in
+        .alert(item: $viewModel.itemToDelete) { item in
             Alert(
                 title: Text(item.name),
                 message: Text("Are you sure you want to delete this item?"),

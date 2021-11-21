@@ -12,6 +12,7 @@
 		1534D0A52749D59000717CEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1534D0A42749D59000717CEF /* Assets.xcassets */; };
 		1534D0A82749D59000717CEF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1534D0A72749D59000717CEF /* Preview Assets.xcassets */; };
 		1534D0AF2749DCEB00717CEF /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534D0AE2749DCEB00717CEF /* Inventory.swift */; };
+		1534D0B22749F4A500717CEF /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1534D0B12749F4A500717CEF /* IdentifiedCollections */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1534D0B22749F4A500717CEF /* IdentifiedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +88,9 @@
 			dependencies = (
 			);
 			name = "SwiftUI-Navigation";
+			packageProductDependencies = (
+				1534D0B12749F4A500717CEF /* IdentifiedCollections */,
+			);
 			productName = "SwiftUI-Navigation";
 			productReference = 1534D09D2749D58F00717CEF /* SwiftUI-Navigation.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +119,9 @@
 				Base,
 			);
 			mainGroup = 1534D0942749D58F00717CEF;
+			packageReferences = (
+				1534D0B02749F4A500717CEF /* XCRemoteSwiftPackageReference "swift-identified-collections" */,
+			);
 			productRefGroup = 1534D09E2749D58F00717CEF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -347,6 +355,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1534D0B02749F4A500717CEF /* XCRemoteSwiftPackageReference "swift-identified-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-identified-collections";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1534D0B12749F4A500717CEF /* IdentifiedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1534D0B02749F4A500717CEF /* XCRemoteSwiftPackageReference "swift-identified-collections" */;
+			productName = IdentifiedCollections;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1534D0952749D58F00717CEF /* Project object */;
 }

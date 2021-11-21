@@ -11,6 +11,7 @@
 		1534D0A32749D58F00717CEF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534D0A22749D58F00717CEF /* ContentView.swift */; };
 		1534D0A52749D59000717CEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1534D0A42749D59000717CEF /* Assets.xcassets */; };
 		1534D0A82749D59000717CEF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1534D0A72749D59000717CEF /* Preview Assets.xcassets */; };
+		1534D0AF2749DCEB00717CEF /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534D0AE2749DCEB00717CEF /* Inventory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		1534D0A22749D58F00717CEF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1534D0A42749D59000717CEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1534D0A72749D59000717CEF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1534D0AE2749DCEB00717CEF /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 				1534D0A22749D58F00717CEF /* ContentView.swift */,
 				1534D0A42749D59000717CEF /* Assets.xcassets */,
 				1534D0A62749D59000717CEF /* Preview Content */,
+				1534D0AE2749DCEB00717CEF /* Inventory.swift */,
 			);
 			path = "SwiftUI-Navigation";
 			sourceTree = "<group>";
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1534D0AF2749DCEB00717CEF /* Inventory.swift in Sources */,
 				1534D0A32749D58F00717CEF /* ContentView.swift in Sources */,
 				1534D0A12749D58F00717CEF /* SwiftUI_NavigationApp.swift in Sources */,
 			);

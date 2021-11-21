@@ -59,9 +59,51 @@ final class InventoryViewModel: ObservableObject {
     }
 }
 
-struct Inventory: View {
+struct InventoryView: View {
     let viewModel: InventoryViewModel
+    
     var body: some View {
-        Text("Inventory")
+        List {
+            ForEach(self.viewModel.inventory) { item in
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(item.name)
+                        
+                        switch item.status {
+                        case let .inStock(quantity):
+                            Text("In stock: \(quantity)")
+                        case let .outOfStock(isOnBackOrder):
+                            Text("Out of stock" + (isOnBackOrder ? "on back order" : ""))
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    if let color = item.color {
+                        Rectangle()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(color.swiftUIColor)
+                            .border(Color.black, width: 1)
+                    }
+                    
+                    Button(action: { /* TODO */ }) {
+                        Image(systemName: "trash.fill")
+                    }
+                    .padding(.leading)
+                }
+            }
+        }
+    }
+}
+
+struct InventoryView_Previews: PreviewProvider {
+    static var previews: some View {
+        InventoryView(viewModel: InventoryViewModel(inventory: [
+            Item(
+                name: "Item",
+                color: .red,
+                status: .inStock(quantity: 4)
+            )
+        ]))
     }
 }

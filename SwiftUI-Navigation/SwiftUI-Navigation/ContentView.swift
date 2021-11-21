@@ -41,7 +41,7 @@ struct ContentView: View {
                     Text("One")
                 }
                 .tag(Tab.one)
-            Inventory(viewModel: self.viewModel.inventoryViewModel)
+            InventoryView(viewModel: self.viewModel.inventoryViewModel)
                 .tabItem {
                     Text("Inventory")
                 }

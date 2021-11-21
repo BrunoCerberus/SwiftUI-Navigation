@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct SwiftUI_NavigationApp: App {
+    
+    let appViewModel: AppViewModel = AppViewModel(selectedTab: .two)
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(appViewModel)
         }
     }
 }

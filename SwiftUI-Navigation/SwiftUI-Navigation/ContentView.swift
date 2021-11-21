@@ -7,27 +7,41 @@
 
 import SwiftUI
 
+enum Tab: Equatable {
+    case one, two, three
+}
+
+final class AppViewModel: ObservableObject {
+    @Published var selectedTab: Tab
+    
+    init(selectedTab: Tab) {
+        self.selectedTab = selectedTab
+    }
+}
+
 struct ContentView: View {
     
-    @State var selection = 1
+    @EnvironmentObject var viewModel: AppViewModel
     
     var body: some View {
-        TabView(selection: $selection) {
-            Text("One")
+        TabView(selection: $viewModel.selectedTab) {
+            Button(action: { viewModel.selectedTab = .three }) {
+                Text("Goes to Tab 3")
+            }
                 .tabItem {
                     Text("One")
                 }
-                .tag(1)
+                .tag(Tab.one)
             Text("Two")
                 .tabItem {
                     Text("Two")
                 }
-                .tag(2)
+                .tag(Tab.two)
             Text("Three")
                 .tabItem {
                     Text("Three")
                 }
-                .tag(3)
+                .tag(Tab.three)
         }
         .tabViewStyle(DefaultTabViewStyle())
     }
@@ -35,6 +49,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(selection: 2)
+        ContentView()
+            .environmentObject(AppViewModel(selectedTab: .one))
     }
 }

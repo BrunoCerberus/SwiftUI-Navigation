@@ -57,11 +57,18 @@ final class InventoryViewModel: ObservableObject {
     init(inventory: [Item] = []) {
         self.inventory = inventory
     }
+    
+    func delete(item: Item) {
+        withAnimation {
+            inventory.removeAll { $0.id == item.id }
+        }
+    }
 }
 
 struct InventoryView: View {
     @ObservedObject var viewModel: InventoryViewModel
     @State var deleteItemAlertIsPresented: Bool = false
+    @State var itemToDelete: Item?
     
     var body: some View {
         List {
@@ -87,7 +94,11 @@ struct InventoryView: View {
                             .border(Color.black, width: 1)
                     }
                     
-                    Button(action: { deleteItemAlertIsPresented.toggle() }) {
+                    Button(action: {
+                        deleteItemAlertIsPresented.toggle()
+                        itemToDelete = item
+                        
+                    }) {
                         Image(systemName: "trash.fill")
                     }
                     .padding(.leading)
@@ -98,10 +109,12 @@ struct InventoryView: View {
         }
         .alert(isPresented: $deleteItemAlertIsPresented) {
             Alert(
-                title: Text("Delete"),
+                title: Text(itemToDelete?.name ?? "Delete"),
                 message: Text("Are you sure you want to delete this item?"),
                 primaryButton: .destructive(Text("Delete")) {
-                    // TODO: handle the deletion
+                    if let item = itemToDelete {
+                        self.viewModel.delete(item: item)
+                    }
                 },
                 secondaryButton: .cancel()
             )

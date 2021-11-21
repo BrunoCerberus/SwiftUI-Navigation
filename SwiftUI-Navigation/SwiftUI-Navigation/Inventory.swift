@@ -112,9 +112,8 @@ struct InventoryView: View {
             }
         }
         .alert(
-            Text(self.viewModel.itemToDelete?.name ?? ""),
-            isPresented: self.$viewModel.itemToDelete.isPresent(),
-            presenting: self.viewModel.itemToDelete,
+            title: { Text($0.name) },
+            presenting: self.$viewModel.itemToDelete,
             actions: { item in
                 Button("Delete", role: .destructive) {
                     self.viewModel.delete(item: item)

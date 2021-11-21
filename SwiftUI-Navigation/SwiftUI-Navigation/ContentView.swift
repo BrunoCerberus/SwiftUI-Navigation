@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum Tab: Equatable {
-    case one, two, three
+    case one, inventory, three
 }
 
 final class AppViewModel: ObservableObject {
@@ -28,14 +28,6 @@ final class AppViewModel: ObservableObject {
     }
 }
 
-final class InventoryViewModel: ObservableObject {
-    @Published var inventory: [Item]
-    
-    init(inventory: [Item] = []) {
-        self.inventory = inventory
-    }
-}
-
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: AppViewModel
@@ -49,11 +41,11 @@ struct ContentView: View {
                     Text("One")
                 }
                 .tag(Tab.one)
-            Text("Two")
+            Inventory(viewModel: self.viewModel.inventoryViewModel)
                 .tabItem {
-                    Text("Two")
+                    Text("Inventory")
                 }
-                .tag(Tab.two)
+                .tag(Tab.inventory)
             Text("Three")
                 .tabItem {
                     Text("Three")
@@ -67,6 +59,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(AppViewModel(selectedTab: .one))
+            .environmentObject(AppViewModel(selectedTab: .inventory))
     }
 }

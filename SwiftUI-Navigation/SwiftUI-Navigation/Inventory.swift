@@ -50,3 +50,18 @@ struct Item: Equatable, Identifiable {
     }
   }
 }
+
+final class InventoryViewModel: ObservableObject {
+    @Published var inventory: [Item]
+    
+    init(inventory: [Item] = []) {
+        self.inventory = inventory
+    }
+}
+
+struct Inventory: View {
+    let viewModel: InventoryViewModel
+    var body: some View {
+        Text("Inventory")
+    }
+}

@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct SwiftUI_NavigationApp: App {
     
-    let appViewModel: AppViewModel = AppViewModel(selectedTab: .two)
+    let appViewModel: AppViewModel = AppViewModel(selectedTab: .inventory)
     
     var body: some Scene {
         WindowGroup {

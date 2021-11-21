@@ -55,9 +55,9 @@
 			children = (
 				1534D0A02749D58F00717CEF /* SwiftUI_NavigationApp.swift */,
 				1534D0A22749D58F00717CEF /* ContentView.swift */,
+				1534D0AE2749DCEB00717CEF /* Inventory.swift */,
 				1534D0A42749D59000717CEF /* Assets.xcassets */,
 				1534D0A62749D59000717CEF /* Preview Content */,
-				1534D0AE2749DCEB00717CEF /* Inventory.swift */,
 			);
 			path = "SwiftUI-Navigation";
 			sourceTree = "<group>";

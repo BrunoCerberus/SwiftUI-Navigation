@@ -14,8 +14,25 @@ enum Tab: Equatable {
 final class AppViewModel: ObservableObject {
     @Published var selectedTab: Tab
     
-    init(selectedTab: Tab) {
+    /**
+     You will not get notified of every change inside the InventoryViewModel, but rather you will only be notified when the whole field is replaced all at once.
+     **/
+    @Published var inventoryViewModel: InventoryViewModel
+    
+    init(
+        selectedTab: Tab,
+        inventoryViewModel: InventoryViewModel = .init()
+    ) {
         self.selectedTab = selectedTab
+        self.inventoryViewModel = inventoryViewModel
+    }
+}
+
+final class InventoryViewModel: ObservableObject {
+    @Published var inventory: [Item]
+    
+    init(inventory: [Item] = []) {
+        self.inventory = inventory
     }
 }
 

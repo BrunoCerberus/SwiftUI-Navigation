@@ -111,8 +111,9 @@ struct InventoryView: View {
                 .foregroundColor(item.status.isInStock ? nil : .gray)
             }
         }
-        .alert(
+        .confirmationDialog(
             title: { Text($0.name) },
+            titleVisibility: .automatic,
             presenting: self.$viewModel.itemToDelete,
             actions: { item in
                 Button("Delete", role: .destructive) {
@@ -123,6 +124,18 @@ struct InventoryView: View {
                 Text("Are you sure you want to delete this item?")
             }
         )
+//        .alert(
+//            title: { Text($0.name) },
+//            presenting: self.$viewModel.itemToDelete,
+//            actions: { item in
+//                Button("Delete", role: .destructive) {
+//                    self.viewModel.delete(item: item)
+//                }
+//            },
+//            message: { _ in
+//                Text("Are you sure you want to delete this item?")
+//            }
+//        )
 //        .alert(item: $viewModel.itemToDelete) { item in
 //            Alert(
 //                title: Text(item.name),

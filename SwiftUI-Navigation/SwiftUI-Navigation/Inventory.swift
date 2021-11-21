@@ -69,6 +69,10 @@ final class InventoryViewModel: ObservableObject {
             _ = inventory.remove(id: item.id)
         }
     }
+    
+    func deleteButtonTapped(item: Item) {
+        itemToDelete = item
+    }
 }
 
 struct InventoryView: View {
@@ -98,7 +102,7 @@ struct InventoryView: View {
                             .border(Color.black, width: 1)
                     }
                     
-                    Button(action: { viewModel.itemToDelete = item }) {
+                    Button(action: { viewModel.deleteButtonTapped(item: item) }) {
                         Image(systemName: "trash.fill")
                     }
                     .padding(.leading)
@@ -122,11 +126,18 @@ struct InventoryView: View {
 
 struct InventoryView_Previews: PreviewProvider {
     static var previews: some View {
-        InventoryView(viewModel: InventoryViewModel(inventory: [
-            Item(name: "Keyboard", color: .blue, status: .inStock(quantity: 100)),
-            Item(name: "Charger", color: .yellow, status: .inStock(quantity: 20)),
-            Item(name: "Phone", color: .green, status: .outOfStock(isOnBackOrder: true)),
-            Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false)),
-        ]))
+        
+        let keyboard = Item(name: "Keyboard", color: .blue, status: .inStock(quantity: 100))
+        
+        InventoryView(
+            viewModel: InventoryViewModel(
+                inventory: [
+                    Item(name: "Charger", color: .yellow, status: .inStock(quantity: 20)),
+                    Item(name: "Phone", color: .green, status: .outOfStock(isOnBackOrder: true)),
+                    Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false)),
+                ],
+                itemToDelete: keyboard
+            )
+        )
     }
 }

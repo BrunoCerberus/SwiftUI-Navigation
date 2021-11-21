@@ -94,11 +94,7 @@ struct InventoryView: View {
                             .border(Color.black, width: 1)
                     }
                     
-                    Button(action: {
-//                        deleteItemAlertIsPresented.toggle()
-                        itemToDelete = item
-                        
-                    }) {
+                    Button(action: { itemToDelete = item }) {
                         Image(systemName: "trash.fill")
                     }
                     .padding(.leading)
@@ -117,18 +113,6 @@ struct InventoryView: View {
                 secondaryButton: .cancel()
             )
         }
-//        .alert(isPresented: $deleteItemAlertIsPresented) {
-//            Alert(
-//                title: Text(itemToDelete?.name ?? "Delete"),
-//                message: Text("Are you sure you want to delete this item?"),
-//                primaryButton: .destructive(Text("Delete")) {
-//                    if let item = itemToDelete {
-//                        self.viewModel.delete(item: item)
-//                    }
-//                },
-//                secondaryButton: .cancel()
-//            )
-//        }
     }
 }
 

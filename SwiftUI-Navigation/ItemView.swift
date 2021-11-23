@@ -26,6 +26,35 @@ struct ItemView: View {
                         .tag(Optional(color))
                 }
             }
+            
+            switch self.item.status {
+            case let .inStock(quantity: quantity):
+                Section(header: Text("In Stock")) {
+                    Stepper(
+                        "Quantity: \(quantity)",
+                        value: Binding(
+                            get: { quantity },
+                            set: { self.item.status = .inStock(quantity: $0) }
+                        )
+                    )
+                    Button("Mark as sold out") {
+                        self.item.status = .outOfStock(isOnBackOrder: false)
+                    }
+                }
+            case let .outOfStock(isOnBackOrder: isOnBackOrder):
+                Section(header: Text("Out of Stock")) {
+                    Toggle(
+                        "Is on back order?",
+                        isOn: Binding(
+                            get: { isOnBackOrder },
+                            set: { self.item.status = .outOfStock(isOnBackOrder: $0) }
+                        )
+                    )
+                    Button("Is back in stock!") {
+                        self.item.status = .inStock(quantity: 1)
+                    }
+                }
+            }
         }
         .preferredColorScheme(.dark)
     }

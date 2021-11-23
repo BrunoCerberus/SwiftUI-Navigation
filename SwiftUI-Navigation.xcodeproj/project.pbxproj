@@ -15,6 +15,7 @@
 		1534D0B22749F4A500717CEF /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1534D0B12749F4A500717CEF /* IdentifiedCollections */; };
 		1534D0B4274A9F6400717CEF /* SwiftUIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534D0B3274A9F6400717CEF /* SwiftUIHelpers.swift */; };
 		15D90A9D274C73D00012633D /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D90A9C274C73D00012633D /* ItemView.swift */; };
+		15D90AA0274C8CDE0012633D /* CasePaths in Frameworks */ = {isa = PBXBuildFile; productRef = 15D90A9F274C8CDE0012633D /* CasePaths */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1534D0B22749F4A500717CEF /* IdentifiedCollections in Frameworks */,
+				15D90AA0274C8CDE0012633D /* CasePaths in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +98,7 @@
 			name = "SwiftUI-Navigation";
 			packageProductDependencies = (
 				1534D0B12749F4A500717CEF /* IdentifiedCollections */,
+				15D90A9F274C8CDE0012633D /* CasePaths */,
 			);
 			productName = "SwiftUI-Navigation";
 			productReference = 1534D09D2749D58F00717CEF /* SwiftUI-Navigation.app */;
@@ -127,6 +130,7 @@
 			mainGroup = 1534D0942749D58F00717CEF;
 			packageReferences = (
 				1534D0B02749F4A500717CEF /* XCRemoteSwiftPackageReference "swift-identified-collections" */,
+				15D90A9E274C8CDD0012633D /* XCRemoteSwiftPackageReference "swift-case-paths" */,
 			);
 			productRefGroup = 1534D09E2749D58F00717CEF /* Products */;
 			projectDirPath = "";
@@ -373,6 +377,14 @@
 				minimumVersion = 0.3.2;
 			};
 		};
+		15D90A9E274C8CDD0012633D /* XCRemoteSwiftPackageReference "swift-case-paths" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-case-paths";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -380,6 +392,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1534D0B02749F4A500717CEF /* XCRemoteSwiftPackageReference "swift-identified-collections" */;
 			productName = IdentifiedCollections;
+		};
+		15D90A9F274C8CDE0012633D /* CasePaths */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15D90A9E274C8CDD0012633D /* XCRemoteSwiftPackageReference "swift-case-paths" */;
+			productName = CasePaths;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -63,5 +63,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(AppViewModel(selectedTab: .inventory))
+            .preferredColorScheme(.dark)
     }
 }

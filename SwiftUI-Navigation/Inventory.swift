@@ -176,5 +176,6 @@ struct InventoryView_Previews: PreviewProvider {
                 )
             )
         }
+        .preferredColorScheme(.dark)
     }
 }

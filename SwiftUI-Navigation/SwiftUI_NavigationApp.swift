@@ -28,6 +28,7 @@ struct SwiftUI_NavigationApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(appViewModel)
+                .preferredColorScheme(.dark)
         }
     }
 }

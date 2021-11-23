@@ -21,7 +21,7 @@ struct SwiftUI_NavigationApp: App {
                     Item(name: "Phone", color: .green, status: .outOfStock(isOnBackOrder: true)),
                     Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false)),
                 ],
-                itemToDelete: keyboard
+                itemToDelete: nil
             )
         )
         

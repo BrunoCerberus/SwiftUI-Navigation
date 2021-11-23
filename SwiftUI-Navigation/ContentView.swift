@@ -41,11 +41,14 @@ struct ContentView: View {
                     Text("One")
                 }
                 .tag(Tab.one)
-            InventoryView(viewModel: self.viewModel.inventoryViewModel)
-                .tabItem {
-                    Text("Inventory")
-                }
-                .tag(Tab.inventory)
+            NavigationView {
+                InventoryView(viewModel: self.viewModel.inventoryViewModel)
+            }
+            .tabItem {
+                Text("Inventory")
+            }
+            .tag(Tab.inventory)
+            
             Text("Three")
                 .tabItem {
                     Text("Three")

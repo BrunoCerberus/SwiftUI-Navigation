@@ -77,6 +77,7 @@ final class InventoryViewModel: ObservableObject {
 
 struct InventoryView: View {
     @ObservedObject var viewModel: InventoryViewModel
+    @State var addItemIsPresented: Bool = false
     
     var body: some View {
         List {
@@ -124,6 +125,15 @@ struct InventoryView: View {
                 Text("Are you sure you want to delete this item?")
             }
         )
+        .sheet(isPresented: $addItemIsPresented) {
+            Text("Add an Item")
+        }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button("Add") { self.addItemIsPresented.toggle() }
+            }
+        }
+        .navigationTitle("Inventory")
 //        .alert(
 //            title: { Text($0.name) },
 //            presenting: self.$viewModel.itemToDelete,
@@ -147,22 +157,24 @@ struct InventoryView: View {
 //            )
 //        }
     }
+    
 }
 
 struct InventoryView_Previews: PreviewProvider {
     static var previews: some View {
         
-        let keyboard = Item(name: "Keyboard", color: .blue, status: .inStock(quantity: 100))
-        
-        InventoryView(
-            viewModel: InventoryViewModel(
-                inventory: [
-                    Item(name: "Charger", color: .yellow, status: .inStock(quantity: 20)),
-                    Item(name: "Phone", color: .green, status: .outOfStock(isOnBackOrder: true)),
-                    Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false)),
-                ],
-                itemToDelete: keyboard
+        let _ = Item(name: "Keyboard", color: .blue, status: .inStock(quantity: 100))
+        NavigationView {
+            InventoryView(
+                viewModel: InventoryViewModel(
+                    inventory: [
+                        Item(name: "Charger", color: .yellow, status: .inStock(quantity: 20)),
+                        Item(name: "Phone", color: .green, status: .outOfStock(isOnBackOrder: true)),
+                        Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false)),
+                    ],
+                    itemToDelete: nil
+                )
             )
-        )
+        }
     }
 }

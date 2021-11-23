@@ -29,12 +29,12 @@ struct ItemView: View {
             }
             
             IfCaseLet(self.$item.status, pattern: /Item.Status.inStock) {
-                (quantity: Binding<Int>) in
+               $quantity in
                 
                 Section(header: Text("In Stock")) {
                     Stepper(
-                        "Quantity: \(quantity.wrappedValue)",
-                        value: quantity
+                        "Quantity: \(quantity)",
+                        value: $quantity
                     )
                     Button("Mark as sold out") {
                         self.item.status = .outOfStock(isOnBackOrder: false)
@@ -43,12 +43,12 @@ struct ItemView: View {
             }
             
             IfCaseLet(self.$item.status, pattern: /Item.Status.outOfStock) {
-                (isOnBackOrder: Binding<Bool>) in
+                $isOnBackOrder in
                 
                 Section(header: Text("Out of Stock")) {
                     Toggle(
                         "Is on back order?",
-                        isOn: isOnBackOrder
+                        isOn: $isOnBackOrder
                     )
                     Button("Is back in stock!") {
                         self.item.status = .inStock(quantity: 1)

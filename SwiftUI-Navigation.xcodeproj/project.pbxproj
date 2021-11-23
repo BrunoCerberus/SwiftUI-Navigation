@@ -14,6 +14,7 @@
 		1534D0AF2749DCEB00717CEF /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534D0AE2749DCEB00717CEF /* Inventory.swift */; };
 		1534D0B22749F4A500717CEF /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1534D0B12749F4A500717CEF /* IdentifiedCollections */; };
 		1534D0B4274A9F6400717CEF /* SwiftUIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534D0B3274A9F6400717CEF /* SwiftUIHelpers.swift */; };
+		15D90A9D274C73D00012633D /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D90A9C274C73D00012633D /* ItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		1534D0A72749D59000717CEF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1534D0AE2749DCEB00717CEF /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 		1534D0B3274A9F6400717CEF /* SwiftUIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIHelpers.swift; sourceTree = "<group>"; };
+		15D90A9C274C73D00012633D /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +62,10 @@
 				1534D0A02749D58F00717CEF /* SwiftUI_NavigationApp.swift */,
 				1534D0A22749D58F00717CEF /* ContentView.swift */,
 				1534D0AE2749DCEB00717CEF /* Inventory.swift */,
+				1534D0B3274A9F6400717CEF /* SwiftUIHelpers.swift */,
+				15D90A9C274C73D00012633D /* ItemView.swift */,
 				1534D0A42749D59000717CEF /* Assets.xcassets */,
 				1534D0A62749D59000717CEF /* Preview Content */,
-				1534D0B3274A9F6400717CEF /* SwiftUIHelpers.swift */,
 			);
 			path = "SwiftUI-Navigation";
 			sourceTree = "<group>";
@@ -154,6 +157,7 @@
 				1534D0AF2749DCEB00717CEF /* Inventory.swift in Sources */,
 				1534D0B4274A9F6400717CEF /* SwiftUIHelpers.swift in Sources */,
 				1534D0A32749D58F00717CEF /* ContentView.swift in Sources */,
+				15D90A9D274C73D00012633D /* ItemView.swift in Sources */,
 				1534D0A12749D58F00717CEF /* SwiftUI_NavigationApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

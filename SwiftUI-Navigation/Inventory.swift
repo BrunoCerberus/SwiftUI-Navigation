@@ -126,7 +126,7 @@ struct InventoryView: View {
             }
         )
         .sheet(isPresented: $addItemIsPresented) {
-            Text("Add an Item")
+            ItemView()
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {

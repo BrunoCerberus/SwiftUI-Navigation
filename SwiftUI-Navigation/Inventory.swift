@@ -54,13 +54,16 @@ struct Item: Equatable, Identifiable {
 
 final class InventoryViewModel: ObservableObject {
     @Published var inventory: IdentifiedArrayOf<Item>
+    @Published var itemToAdd: Item?
     @Published var itemToDelete: Item?
     
     init(
         inventory: IdentifiedArrayOf<Item> = [],
+        itemToAdd: Item? = nil,
         itemToDelete: Item? = nil
     ) {
         self.inventory = inventory
+        self.itemToAdd = itemToAdd
         self.itemToDelete = itemToDelete
     }
     
@@ -73,11 +76,30 @@ final class InventoryViewModel: ObservableObject {
     func deleteButtonTapped(item: Item) {
         itemToDelete = item
     }
+    
+    func add(item: Item) {
+        dismissSheet()
+        withAnimation {
+            _ = inventory.append(item)
+        }
+    }
+    
+    func addButtonTapped() {
+        self.itemToAdd = Item(name: "", color: nil, status: .inStock(quantity: 1))
+        
+        Task { @MainActor in
+            try await Task.sleep(nanoseconds: 500 * NSEC_PER_MSEC)
+            self.itemToAdd?.name = "Bluetooth Keyboard"
+        }
+    }
+    
+    func dismissSheet() {
+        self.itemToAdd = nil
+    }
 }
 
 struct InventoryView: View {
     @ObservedObject var viewModel: InventoryViewModel
-    @State var addItemIsPresented: Bool = false
     
     var body: some View {
         List {
@@ -108,6 +130,9 @@ struct InventoryView: View {
                     }
                     .padding(.leading)
                 }
+                .onTapGesture {
+                    self.viewModel.itemToAdd = item
+                }
                 .buttonStyle(.plain)
                 .foregroundColor(item.status.isInStock ? nil : .gray)
             }
@@ -125,14 +150,21 @@ struct InventoryView: View {
                 Text("Are you sure you want to delete this item?")
             }
         )
-        .sheet(isPresented: $addItemIsPresented) {
+        .sheet(item: $viewModel.itemToAdd) { item in
             NavigationView {
-                ItemView()
+                ItemView(
+                    item: Binding<Item>(
+                        get: { item },
+                        set: { viewModel.itemToAdd = $0 }
+                    ),
+                    onSave: viewModel.add(item:),
+                    onCancel: viewModel.dismissSheet
+                )
             }
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Add") { self.addItemIsPresented.toggle() }
+                Button("Add", action: self.viewModel.addButtonTapped)
             }
         }
         .navigationTitle("Inventory")

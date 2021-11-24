@@ -9,11 +9,10 @@ import SwiftUI
 import CasePaths
 
 struct ItemView: View {
-    @State var item: Item = Item(
-        name: "",
-        color: nil,
-        status: .inStock(quantity: 1)
-    )
+    @Binding var item: Item
+    
+    let onSave: (Item) -> Void
+    let onCancel: () -> Void
     
     var body: some View {
         Form {
@@ -85,6 +84,19 @@ struct ItemView: View {
 //                }
 //            }
         }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Cancel") {
+                    self.onCancel()
+                }
+            }
+            
+            ToolbarItem(placement: .primaryAction) {
+                Button("Save") {
+                    self.onSave(self.item)
+                }
+            }
+        }
         .preferredColorScheme(.dark)
     }
 }
@@ -92,7 +104,17 @@ struct ItemView: View {
 struct ItemView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ItemView()
+            ItemView(
+                item: .constant(
+                    Item(
+                        name: "",
+                        color: nil,
+                        status: .inStock(quantity: 1)
+                    )
+                ),
+                onSave: { _ in },
+                onCancel: {}
+            )
         }
         .preferredColorScheme(.dark)
     }

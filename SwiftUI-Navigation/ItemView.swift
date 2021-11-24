@@ -9,6 +9,14 @@ import SwiftUI
 import CasePaths
 
 struct ItemView: View {
+    
+    // The problem with @State that it takes initial values but not consider to
+    // re-render screen with any changed of its value from outside
+//    @State var item: Item = Item(
+//        name: "",
+//        color: nil,
+//        status: .inStock(quantity: 1)
+//    )
     @Binding var item: Item
     
     let onSave: (Item) -> Void

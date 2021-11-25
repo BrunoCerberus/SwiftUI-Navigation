@@ -135,7 +135,9 @@ struct InventoryView: View {
                 }
                 .buttonStyle(.plain)
                 .foregroundColor(item.status.isInStock ? nil : .gray)
+                
             }
+            .onDelete(perform: delete)
         }
         .confirmationDialog(
             title: { Text($0.name) },
@@ -192,6 +194,12 @@ struct InventoryView: View {
 //        }
     }
     
+    private func delete(offsets: IndexSet) {
+        for index in offsets {
+            let item: Item = viewModel.inventory[index]
+            viewModel.delete(item: item)
+        }
+    }
 }
 
 struct InventoryView_Previews: PreviewProvider {

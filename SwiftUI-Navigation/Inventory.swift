@@ -60,17 +60,26 @@ final class InventoryViewModel: ObservableObject {
         inventory: IdentifiedArrayOf<ItemRowViewModel> = [],
         itemToAdd: Item? = nil
     ) {
-        self.inventory = inventory
+        self.inventory = []
         self.itemToAdd = itemToAdd
+        
+        for itemRowViewModel in inventory {
+            self.bind(itemRowViewModel: itemRowViewModel)
+        }
+    }
+    
+    private func bind(itemRowViewModel: ItemRowViewModel) {
+        itemRowViewModel.onDelete = { [weak self, item = itemRowViewModel.item] in
+            withAnimation {
+                self?.delete(item: item)
+            }
+        }
+        self.inventory.append(itemRowViewModel)
     }
     
     func add(item: Item) {
         withAnimation {
-            let viewModel = ItemRowViewModel(item: item)
-            viewModel.onDelete = { [weak self] in
-                self?.delete(item: item)
-            }
-            self.inventory.append(viewModel)
+            self.bind(itemRowViewModel: .init(item: item))
             self.itemToAdd = nil
         }
     }

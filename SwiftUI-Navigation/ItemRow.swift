@@ -11,6 +11,8 @@ final class ItemRowViewModel: Identifiable, ObservableObject {
     @Published var item: Item
     @Published var deleteItemAlertIsPresented: Bool
     
+    var onDelete: () -> Void = {}
+    
     var id: Item.ID { self.item.id }
     
     init(
@@ -27,6 +29,7 @@ final class ItemRowViewModel: Identifiable, ObservableObject {
     
     func deleteConfirmationButtonTapped() {
         deleteItemAlertIsPresented = false
+        onDelete()
     }
 }
 

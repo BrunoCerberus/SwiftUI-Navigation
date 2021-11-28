@@ -65,9 +65,19 @@ final class InventoryViewModel: ObservableObject {
     }
     
     func add(item: Item) {
-        dismissSheet()
         withAnimation {
-            _ = inventory.append(.init(item: item))
+            let viewModel = ItemRowViewModel(item: item)
+            viewModel.onDelete = { [weak self] in
+                self?.delete(item: item)
+            }
+            self.inventory.append(viewModel)
+            self.itemToAdd = nil
+        }
+    }
+    
+    func delete(item: Item) {
+        withAnimation {
+            _ = inventory.remove(id: item.id)
         }
     }
     
@@ -145,8 +155,8 @@ struct InventoryView: View {
     
     private func delete(offsets: IndexSet) {
         for index in offsets {
-            let item: ItemRowViewModel = viewModel.inventory[index]
-//            viewModel.delete(item: item)
+            let rowViewModel: ItemRowViewModel = viewModel.inventory[index]
+            viewModel.delete(item: rowViewModel.item)
         }
     }
 }

@@ -23,92 +23,90 @@ struct ItemView: View {
     let onCancel: () -> Void
     
     var body: some View {
-        ScrollView {
-            VStack {
-                Form {
-                    TextField("Name", text: self.$item.name)
-                    Picker(selection: self.$item.color, label: Text("Color")) {
-                        Text("None")
-                            .tag(Item.Color?.none)
-                        
-                        ForEach(Item.Color.defaults, id: \.name) { color in
-                            Text(color.name)
-                                .tag(Optional(color))
-                        }
-                    }
+        VStack {
+            Form {
+                TextField("Name", text: self.$item.name)
+                Picker(selection: self.$item.color, label: Text("Color")) {
+                    Text("None")
+                        .tag(Item.Color?.none)
                     
-                    IfCaseLet(self.$item.status, pattern: /Item.Status.inStock) {
-                       $quantity in
-                        
-                        Section(header: Text("In Stock")) {
-                            Stepper(
-                                "Quantity: \(quantity)",
-                                value: $quantity
-                            )
-                            Button("Mark as sold out") {
-                                self.item.status = .outOfStock(isOnBackOrder: false)
-                            }
-                        }
+                    ForEach(Item.Color.defaults, id: \.name) { color in
+                        Text(color.name)
+                            .tag(Optional(color))
                     }
-                    
-                    IfCaseLet(self.$item.status, pattern: /Item.Status.outOfStock) {
-                        $isOnBackOrder in
-                        
-                        Section(header: Text("Out of Stock")) {
-                            Toggle(
-                                "Is on back order?",
-                                isOn: $isOnBackOrder
-                            )
-                            Button("Is back in stock!") {
-                                self.item.status = .inStock(quantity: 1)
-                            }
-                        }
-                    }
-                    
-        //            switch self.item.status {
-        //            case let .inStock(quantity: quantity):
-        //                Section(header: Text("In Stock")) {
-        //                    Stepper(
-        //                        "Quantity: \(quantity)",
-        //                        value: Binding(
-        //                            get: { quantity },
-        //                            set: { self.item.status = .inStock(quantity: $0) }
-        //                        )
-        //                    )
-        //                    Button("Mark as sold out") {
-        //                        self.item.status = .outOfStock(isOnBackOrder: false)
-        //                    }
-        //                }
-        //            case let .outOfStock(isOnBackOrder: isOnBackOrder):
-        //                Section(header: Text("Out of Stock")) {
-        //                    Toggle(
-        //                        "Is on back order?",
-        //                        isOn: Binding(
-        //                            get: { isOnBackOrder },
-        //                            set: { self.item.status = .outOfStock(isOnBackOrder: $0) }
-        //                        )
-        //                    )
-        //                    Button("Is back in stock!") {
-        //                        self.item.status = .inStock(quantity: 1)
-        //                    }
-        //                }
-        //            }
                 }
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") {
-                            self.onCancel()
-                        }
-                    }
+                
+                IfCaseLet(self.$item.status, pattern: /Item.Status.inStock) {
+                   $quantity in
                     
-                    ToolbarItem(placement: .primaryAction) {
-                        Button("Save") {
-                            self.onSave(self.item)
+                    Section(header: Text("In Stock")) {
+                        Stepper(
+                            "Quantity: \(quantity)",
+                            value: $quantity
+                        )
+                        Button("Mark as sold out") {
+                            self.item.status = .outOfStock(isOnBackOrder: false)
                         }
                     }
                 }
-                .preferredColorScheme(.dark)
+                
+                IfCaseLet(self.$item.status, pattern: /Item.Status.outOfStock) {
+                    $isOnBackOrder in
+                    
+                    Section(header: Text("Out of Stock")) {
+                        Toggle(
+                            "Is on back order?",
+                            isOn: $isOnBackOrder
+                        )
+                        Button("Is back in stock!") {
+                            self.item.status = .inStock(quantity: 1)
+                        }
+                    }
+                }
+                
+//                    switch self.item.status {
+//                    case let .inStock(quantity: quantity):
+//                        Section(header: Text("In Stock")) {
+//                            Stepper(
+//                                "Quantity: \(quantity)",
+//                                value: Binding(
+//                                    get: { quantity },
+//                                    set: { self.item.status = .inStock(quantity: $0) }
+//                                )
+//                            )
+//                            Button("Mark as sold out") {
+//                                self.item.status = .outOfStock(isOnBackOrder: false)
+//                            }
+//                        }
+//                    case let .outOfStock(isOnBackOrder: isOnBackOrder):
+//                        Section(header: Text("Out of Stock")) {
+//                            Toggle(
+//                                "Is on back order?",
+//                                isOn: Binding(
+//                                    get: { isOnBackOrder },
+//                                    set: { self.item.status = .outOfStock(isOnBackOrder: $0) }
+//                                )
+//                            )
+//                            Button("Is back in stock!") {
+//                                self.item.status = .inStock(quantity: 1)
+//                            }
+//                        }
+//                    }
             }
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        self.onCancel()
+                    }
+                }
+                
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Save") {
+                        self.onSave(self.item)
+                    }
+                }
+            }
+            .preferredColorScheme(.dark)
         }
     }
 }

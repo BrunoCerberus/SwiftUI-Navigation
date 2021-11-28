@@ -154,11 +154,19 @@ struct InventoryView: View {
         )
         .sheet(unwrap: $viewModel.itemToAdd) { $itemToAdd in
             NavigationView {
-                ItemView(
-                    item: $itemToAdd,
-                    onSave: viewModel.add(item:),
-                    onCancel: viewModel.dismissSheet
-                )
+                ItemView(item: $itemToAdd)
+                    .navigationTitle("Add")
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Cancel", action: viewModel.dismissSheet)
+                        }
+                        
+                        ToolbarItem(placement: .primaryAction) {
+                            Button("Save") {
+                                viewModel.add(item: itemToAdd)
+                            }
+                        }
+                    }
             }
         }
         .toolbar {

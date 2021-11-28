@@ -19,9 +19,6 @@ struct ItemView: View {
 //    )
     @Binding var item: Item
     
-    let onSave: (Item) -> Void
-    let onCancel: () -> Void
-    
     var body: some View {
         VStack {
             Form {
@@ -93,19 +90,6 @@ struct ItemView: View {
 //                        }
 //                    }
             }
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        self.onCancel()
-                    }
-                }
-                
-                ToolbarItem(placement: .primaryAction) {
-                    Button("Save") {
-                        self.onSave(self.item)
-                    }
-                }
-            }
             .preferredColorScheme(.dark)
         }
     }
@@ -121,9 +105,7 @@ struct ItemView_Previews: PreviewProvider {
                         color: nil,
                         status: .inStock(quantity: 1)
                     )
-                ),
-                onSave: { _ in },
-                onCancel: {}
+                )
             )
         }
         .preferredColorScheme(.dark)

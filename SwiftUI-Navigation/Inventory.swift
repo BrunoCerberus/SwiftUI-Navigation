@@ -152,13 +152,10 @@ struct InventoryView: View {
                 Text("Are you sure you want to delete this item?")
             }
         )
-        .sheet(item: $viewModel.itemToAdd) { item in
+        .sheet(unwrap: $viewModel.itemToAdd) { $itemToAdd in
             NavigationView {
                 ItemView(
-                    item: Binding<Item>(
-                        get: { item },
-                        set: { viewModel.itemToAdd = $0 }
-                    ),
+                    item: $itemToAdd,
                     onSave: viewModel.add(item:),
                     onCancel: viewModel.dismissSheet
                 )

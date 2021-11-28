@@ -81,3 +81,18 @@ struct IfCaseLet<Enum, Case, Content>: View where Content: View {
         }
     }
 }
+
+extension View {
+    func sheet<Value, Content>(
+        unwrap optionalValue: Binding<Value?>,
+        @ViewBuilder content: @escaping (Binding<Value>) -> Content
+    ) -> some View where Value: Identifiable, Content: View {
+        self.sheet(
+            item: optionalValue
+        ) { _ in
+            if let value = Binding(optionalValue) {
+                content(value)
+            }
+        }
+    }
+}

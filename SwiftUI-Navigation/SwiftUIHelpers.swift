@@ -19,6 +19,23 @@ extension Binding {
             }
         )
     }
+    
+    func isPresent<Enum, Case>(_ casePath: CasePath<Enum, Case>) -> Binding<Bool> where Value == Enum? {
+        Binding<Bool>(
+            get: {
+                if let wrappedValue = self.wrappedValue, casePath.extract(from: wrappedValue) != nil {
+                    return true
+                } else {
+                    return false
+                }
+            },
+            set: { isPresented in
+                if !isPresented {
+                    self.wrappedValue = nil
+                }
+            }
+        )
+    }
 }
 
 extension View {

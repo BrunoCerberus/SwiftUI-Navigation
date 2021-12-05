@@ -6,10 +6,17 @@
 //
 
 import SwiftUI
+import CasePaths
 
 final class ItemRowViewModel: Identifiable, ObservableObject {
     @Published var item: Item
-    @Published var deleteItemAlertIsPresented: Bool
+    @Published var route: Route?
+    
+    enum Route {
+        case deleteAlert
+        case duplicate(Item)
+        case edit(Item)
+    }
     
     var onDelete: () -> Void = {}
     
@@ -17,18 +24,18 @@ final class ItemRowViewModel: Identifiable, ObservableObject {
     
     init(
         item: Item,
-        deleteItemAlertIsPresented: Bool = false
+        route: Route? = nil
     ) {
         self.item = item
-        self.deleteItemAlertIsPresented = deleteItemAlertIsPresented
+        self.route = route
     }
     
     func deleteButtonTapped() {
-        self.deleteItemAlertIsPresented = true
+        self.route = .deleteAlert
     }
     
     func deleteConfirmationButtonTapped() {
-        deleteItemAlertIsPresented = false
+        self.route = nil
         onDelete()
     }
 }
@@ -65,7 +72,7 @@ struct ItemRowView: View {
         }
         .confirmationDialog(
             self.viewModel.item.name,
-            isPresented: self.$viewModel.deleteItemAlertIsPresented,
+            isPresented: self.$viewModel.route.isPresent(/ItemRowViewModel.Route.deleteAlert),
             titleVisibility: .visible,
             actions: {
                 Button("Delete", role: .destructive) {

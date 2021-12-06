@@ -129,9 +129,6 @@ struct ItemRowView: View {
                     }
             }
         }
-        .onTapGesture {
-//            self.viewModel.itemToAdd = item
-        }
         .buttonStyle(.plain)
         .foregroundColor(viewModel.item.status.isInStock ? nil : .gray)
     }

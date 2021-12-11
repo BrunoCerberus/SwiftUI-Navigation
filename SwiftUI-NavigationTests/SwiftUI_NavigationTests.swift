@@ -21,5 +21,6 @@ final class SwiftUI_NavigationTests: XCTestCase {
         
         XCTAssertNil(viewModel.itemToAdd)
         XCTAssertEqual(viewModel.inventory.count, 1)
+        XCTAssertEqual(viewModel.inventory[0].item, itemToAdd)
     }
 }

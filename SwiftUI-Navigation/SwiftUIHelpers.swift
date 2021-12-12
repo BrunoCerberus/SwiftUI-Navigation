@@ -131,12 +131,6 @@ extension Binding {
 }
 
 extension View {
-//    public func sheet<Item, Content>(
-//        item: Binding<Item?>,
-//        onDismiss: (() -> Void)? = nil,
-//        @ViewBuilder content: @escaping (Item) -> Content
-//    ) -> some View where Item : Identifiable, Content : View
-    
     func sheet<Value, Content>(
         unwrap optionalValue: Binding<Value?>,
         @ViewBuilder content: @escaping (Binding<Value>) -> Content

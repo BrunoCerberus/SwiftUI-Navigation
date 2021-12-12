@@ -47,7 +47,7 @@ struct Item: Equatable, Identifiable {
     static let white = Self(name: "White", red: 1, green: 1, blue: 1)
 
     var swiftUIColor: SwiftUI.Color {
-      .init(red: self.red, green: self.green, blue: self.blue)
+        SwiftUI.Color(red: self.red, green: self.green, blue: self.blue)
     }
   }
 }
@@ -85,7 +85,7 @@ final class InventoryViewModel: ObservableObject {
     
     func add(item: Item) {
         withAnimation {
-            self.bind(itemRowViewModel: .init(item: item))
+            self.bind(itemRowViewModel: ItemRowViewModel(item: item))
             self.itemToAdd = nil
         }
     }
@@ -184,9 +184,9 @@ struct InventoryView_Previews: PreviewProvider {
             InventoryView(
                 viewModel: InventoryViewModel(
                     inventory: [
-                        .init(item: Item(name: "Charger", color: .yellow, status: .inStock(quantity: 20))),
-                        .init(item: Item(name: "Phone", color: .green, status: .outOfStock(isOnBackOrder: true))),
-                        .init(item: Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false))),
+                        ItemRowViewModel(item: Item(name: "Charger", color: .yellow, status: .inStock(quantity: 20))),
+                        ItemRowViewModel(item: Item(name: "Phone", color: .green, status: .outOfStock(isOnBackOrder: true))),
+                        ItemRowViewModel(item: Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false))),
                     ]
                 )
             )

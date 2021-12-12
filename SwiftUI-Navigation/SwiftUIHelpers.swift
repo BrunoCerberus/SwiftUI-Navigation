@@ -10,7 +10,7 @@ import CasePaths
 
 extension Binding {
     func isPresent<Wrapped>() -> Binding<Bool> where Value == Wrapped? {
-        .init(
+        Binding<Bool>(
             get: { self.wrappedValue != nil  },
             set: { isPresented in
                 if !isPresented {

@@ -38,10 +38,15 @@ final class SwiftUI_NavigationTests: XCTestCase {
             ]
         )
         
+        // When deleteButtonTapped is executed
         viewModel.inventory[0].deleteButtonTapped()
+        // route must have an enum value .deleteAlert
         XCTAssertEqual(viewModel.inventory[0].route, .deleteAlert)
         
+        // and when deleteConfirmationButtonTapped is executed
         viewModel.inventory[0].deleteConfirmationButtonTapped()
+        
+        // my inventory array must have nothing
         XCTAssertEqual(viewModel.inventory.count, 0)
     }
 }

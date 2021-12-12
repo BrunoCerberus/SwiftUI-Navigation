@@ -25,6 +25,18 @@ final class SwiftUI_NavigationTests: XCTestCase {
     }
     
     func testDeleteItem() {
+        let viewModel = InventoryViewModel(
+            inventory: [
+                .init(item: .init(name: "Keyboard", color: .red, status: .inStock(quantity: 1)))
+            ]
+        )
         
+        viewModel.inventory[0].deleteButtonTapped()
+        
+        XCTAssertEqual(viewModel.inventory[0].route, .deleteAlert)
+        
+        viewModel.inventory[0].deleteConfirmationButtonTapped()
+        
+        XCTAssertEqual(viewModel.inventory.count, 0)
     }
 }

@@ -12,7 +12,7 @@ final class ItemRowViewModel: Identifiable, ObservableObject {
     @Published var item: Item
     @Published var route: Route?
     
-    enum Route {
+    enum Route: Equatable {
         case deleteAlert
         case duplicate(Item)
         case edit(Item)

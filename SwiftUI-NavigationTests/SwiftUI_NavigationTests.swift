@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import CasePaths
 @testable import SwiftUI_Navigation
 
 final class SwiftUI_NavigationTests: XCTestCase {
@@ -48,5 +49,28 @@ final class SwiftUI_NavigationTests: XCTestCase {
         
         // my inventory array must have nothing
         XCTAssertEqual(viewModel.inventory.count, 0)
+    }
+    
+    func testDuplicateItem() {
+        let item: Item = .init(name: "Keyboard", color: .red, status: .inStock(quantity: 1))
+        let viewModel = InventoryViewModel(
+            inventory: [
+                .init(item: item)
+            ]
+        )
+        
+        viewModel.inventory[0].duplicateButtonTapped()
+//        XCTAssertEqual(viewModel.inventory[0].route, .duplicate(item))
+        XCTAssertNotNil(
+            (/ItemRowViewModel.Route.duplicate).extract(from: try XCTUnwrap(viewModel.inventory[0].route))
+        )
+        
+        let dup = item.duplicate()
+        viewModel.inventory[0].duplicate(item: dup)
+        
+        XCTAssertEqual(viewModel.inventory.count, 2)
+        XCTAssertEqual(viewModel.inventory[0].item, item)
+        XCTAssertEqual(viewModel.inventory[1].item, dup)
+        XCTAssertNil(viewModel.inventory[0].route)
     }
 }

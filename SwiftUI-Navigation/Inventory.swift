@@ -144,28 +144,6 @@ struct InventoryView: View {
             }
         }
         .navigationTitle("Inventory")
-//        .alert(
-//            title: { Text($0.name) },
-//            presenting: self.$viewModel.itemToDelete,
-//            actions: { item in
-//                Button("Delete", role: .destructive) {
-//                    self.viewModel.delete(item: item)
-//                }
-//            },
-//            message: { _ in
-//                Text("Are you sure you want to delete this item?")
-//            }
-//        )
-//        .alert(item: $viewModel.itemToDelete) { item in
-//            Alert(
-//                title: Text(item.name),
-//                message: Text("Are you sure you want to delete this item?"),
-//                primaryButton: .destructive(Text("Delete")) {
-//                    self.viewModel.delete(item: item)
-//                },
-//                secondaryButton: .cancel()
-//            )
-//        }
     }
     
     private func delete(offsets: IndexSet) {

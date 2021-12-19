@@ -88,7 +88,22 @@ struct ItemRowView: View {
             ,
             destination: {
                 if let $item = Binding(unwrap: self.$viewModel.route.case(/ItemRowViewModel.Route.edit)) {
-                    LazyView(ItemView(item: $item))
+                    LazyView(
+                        ItemView(item: $item)
+                            .navigationTitle("Edit")
+                            .navigationBarBackButtonHidden(true)
+                            .toolbar {
+                                ToolbarItem(placement: .cancellationAction) {
+                                    Button("Cancel", action: viewModel.cancelButtonTapped)
+                                }
+                                
+                                ToolbarItem(placement: .primaryAction) {
+                                    Button("Save") {
+                                        self.viewModel.edit(item: $item.wrappedValue)
+                                    }
+                                }
+                            }
+                    )
                 }
             }
         ) {

@@ -117,7 +117,7 @@ struct InventoryView: View {
         List {
             ForEach(
                 self.viewModel.inventory,
-                content: ItemRowView.init(viewModel:)
+                content: ItemRowView.init
             )
                 .onDelete(perform: delete)
         }

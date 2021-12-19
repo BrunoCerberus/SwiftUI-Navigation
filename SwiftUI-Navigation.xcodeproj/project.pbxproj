@@ -14,6 +14,7 @@
 		1534D0AF2749DCEB00717CEF /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534D0AE2749DCEB00717CEF /* Inventory.swift */; };
 		1534D0B22749F4A500717CEF /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 1534D0B12749F4A500717CEF /* IdentifiedCollections */; };
 		1534D0B4274A9F6400717CEF /* SwiftUIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534D0B3274A9F6400717CEF /* SwiftUIHelpers.swift */; };
+		1550E60D276EDB42006E6091 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550E60C276EDB42006E6091 /* LazyView.swift */; };
 		1570385E27642D21003096F8 /* SwiftUI_NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1570385D27642D21003096F8 /* SwiftUI_NavigationTests.swift */; };
 		157D81D527540F2F0018CA61 /* ItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157D81D427540F2F0018CA61 /* ItemRow.swift */; };
 		15D90A9D274C73D00012633D /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D90A9C274C73D00012633D /* ItemView.swift */; };
@@ -38,6 +39,7 @@
 		1534D0A72749D59000717CEF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1534D0AE2749DCEB00717CEF /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 		1534D0B3274A9F6400717CEF /* SwiftUIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIHelpers.swift; sourceTree = "<group>"; };
+		1550E60C276EDB42006E6091 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		1570385B27642D21003096F8 /* SwiftUI-NavigationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftUI-NavigationTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1570385D27642D21003096F8 /* SwiftUI_NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI_NavigationTests.swift; sourceTree = "<group>"; };
 		157D81D427540F2F0018CA61 /* ItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRow.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				157D81D427540F2F0018CA61 /* ItemRow.swift */,
 				1534D0A42749D59000717CEF /* Assets.xcassets */,
 				1534D0A62749D59000717CEF /* Preview Content */,
+				1550E60C276EDB42006E6091 /* LazyView.swift */,
 			);
 			path = "SwiftUI-Navigation";
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				157D81D527540F2F0018CA61 /* ItemRow.swift in Sources */,
 				15D90A9D274C73D00012633D /* ItemView.swift in Sources */,
 				1534D0A12749D58F00717CEF /* SwiftUI_NavigationApp.swift in Sources */,
+				1550E60D276EDB42006E6091 /* LazyView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -73,91 +73,95 @@ struct ItemRowView: View {
     @ObservedObject var viewModel: ItemRowViewModel
     
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(viewModel.item.name)
+        NavigationLink(
+            destination: { ItemView(item: self.$viewModel.item) }
+        ) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(viewModel.item.name)
+                    
+                    switch viewModel.item.status {
+                    case let .inStock(quantity):
+                        Text("In stock: \(quantity)")
+                    case let .outOfStock(isOnBackOrder):
+                        Text("Out of stock" + (isOnBackOrder ? "on back order" : ""))
+                    }
+                }
                 
-                switch viewModel.item.status {
-                case let .inStock(quantity):
-                    Text("In stock: \(quantity)")
-                case let .outOfStock(isOnBackOrder):
-                    Text("Out of stock" + (isOnBackOrder ? "on back order" : ""))
+                Spacer()
+                
+                if let color = viewModel.item.color {
+                    Rectangle()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(color.swiftUIColor)
+                        .border(Color.black, width: 1)
                 }
-            }
-            
-            Spacer()
-            
-            if let color = viewModel.item.color {
-                Rectangle()
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(color.swiftUIColor)
-                    .border(Color.black, width: 1)
-            }
-            
-            Button(action: viewModel.duplicateButtonTapped) {
-                Image(systemName: "square.fill.on.square.fill")
-            }
-            .padding(.leading)
-            
-//            Button(action: viewModel.editButtonTapped) {
-//                Image(systemName: "pencil")
-//            }
-//            .padding(.leading)
-            
-            Button(action: viewModel.deleteButtonTapped) {
-                Image(systemName: "trash.fill")
-            }
-            .padding(.leading)
-        }
-        .confirmationDialog(
-            self.viewModel.item.name,
-            isPresented: self.$viewModel.route.isPresent(/ItemRowViewModel.Route.deleteAlert),
-            titleVisibility: .visible,
-            actions: {
-                Button("Delete", role: .destructive) {
-                    self.viewModel.deleteConfirmationButtonTapped()
+                
+                Button(action: viewModel.duplicateButtonTapped) {
+                    Image(systemName: "square.fill.on.square.fill")
                 }
-            },
-            message: {
-                Text("Are you sure that you want to delete this item?")
+                .padding(.leading)
+                
+    //            Button(action: viewModel.editButtonTapped) {
+    //                Image(systemName: "pencil")
+    //            }
+    //            .padding(.leading)
+                
+                Button(action: viewModel.deleteButtonTapped) {
+                    Image(systemName: "trash.fill")
+                }
+                .padding(.leading)
             }
-        )
-//        .sheet(unwrap: self.$viewModel.route.case(/ItemRowViewModel.Route.edit)) { $item in
-//            NavigationView {
-//                ItemView(item: $item)
-//                    .navigationTitle("Edit")
-//                    .toolbar {
-//                        ToolbarItem(placement: .cancellationAction) {
-//                            Button("Cancel", action: viewModel.cancelButtonTapped)
-//                        }
-//                        
-//                        ToolbarItem(placement: .primaryAction) {
-//                            Button("Save") {
-//                                self.viewModel.edit(item: item)
-//                            }
-//                        }
-//                    }
-//            }
-//        }
-        .popover(unwrap: self.$viewModel.route.case(/ItemRowViewModel.Route.duplicate)) { $item in
-            NavigationView {
-                ItemView(item: $item)
-                    .navigationTitle("Duplicate")
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button("Cancel", action: viewModel.cancelButtonTapped)
-                        }
-                        
-                        ToolbarItem(placement: .primaryAction) {
-                            Button("Add") {
-                                self.viewModel.duplicate(item: item)
+            .confirmationDialog(
+                self.viewModel.item.name,
+                isPresented: self.$viewModel.route.isPresent(/ItemRowViewModel.Route.deleteAlert),
+                titleVisibility: .visible,
+                actions: {
+                    Button("Delete", role: .destructive) {
+                        self.viewModel.deleteConfirmationButtonTapped()
+                    }
+                },
+                message: {
+                    Text("Are you sure that you want to delete this item?")
+                }
+            )
+    //        .sheet(unwrap: self.$viewModel.route.case(/ItemRowViewModel.Route.edit)) { $item in
+    //            NavigationView {
+    //                ItemView(item: $item)
+    //                    .navigationTitle("Edit")
+    //                    .toolbar {
+    //                        ToolbarItem(placement: .cancellationAction) {
+    //                            Button("Cancel", action: viewModel.cancelButtonTapped)
+    //                        }
+    //
+    //                        ToolbarItem(placement: .primaryAction) {
+    //                            Button("Save") {
+    //                                self.viewModel.edit(item: item)
+    //                            }
+    //                        }
+    //                    }
+    //            }
+    //        }
+            .popover(unwrap: self.$viewModel.route.case(/ItemRowViewModel.Route.duplicate)) { $item in
+                NavigationView {
+                    ItemView(item: $item)
+                        .navigationTitle("Duplicate")
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancel", action: viewModel.cancelButtonTapped)
+                            }
+                            
+                            ToolbarItem(placement: .primaryAction) {
+                                Button("Add") {
+                                    self.viewModel.duplicate(item: item)
+                                }
                             }
                         }
-                    }
+                }
+                .frame(minWidth: 300, minHeight: 500)
             }
-            .frame(minWidth: 300, minHeight: 500)
+            .buttonStyle(.plain)
+            .foregroundColor(viewModel.item.status.isInStock ? nil : .gray)
         }
-        .buttonStyle(.plain)
-        .foregroundColor(viewModel.item.status.isInStock ? nil : .gray)
     }
 }

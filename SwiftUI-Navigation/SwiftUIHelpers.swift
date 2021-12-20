@@ -157,3 +157,22 @@ extension View {
         }
     }
 }
+
+extension NavigationLink {
+    init<Value, Wrapped>(
+        unwrap optionalValue: Binding<Value?>,
+        @ViewBuilder destination: @escaping (Binding<Value>) -> Wrapped,
+        @ViewBuilder label: @escaping () -> Label
+    ) where Destination == Wrapped?
+    {
+        self.init(
+            isActive: optionalValue.isPresent(),
+            destination: {
+                if let value = Binding(unwrap: optionalValue) {
+                    destination(value)
+                }
+            },
+            label: label
+        )
+    }
+}

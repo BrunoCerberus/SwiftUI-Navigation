@@ -78,33 +78,24 @@ struct ItemRowView: View {
     
     var body: some View {
         NavigationLink(
-            isActive: .init(
-                get: {
-                    guard case .edit = self.viewModel.route else { return false }
-                    return true
-                },
-                set: self.viewModel.setEditNavigation
-            )
-            ,
-            destination: {
-                if let $item = Binding(unwrap: self.$viewModel.route.case(/ItemRowViewModel.Route.edit)) {
-                    LazyView(
-                        ItemView(item: $item)
-                            .navigationTitle("Edit")
-                            .navigationBarBackButtonHidden(true)
-                            .toolbar {
-                                ToolbarItem(placement: .cancellationAction) {
-                                    Button("Cancel", action: viewModel.cancelButtonTapped)
-                                }
-                                
-                                ToolbarItem(placement: .primaryAction) {
-                                    Button("Save") {
-                                        self.viewModel.edit(item: $item.wrappedValue)
-                                    }
+            unwrap: self.$viewModel.route.case(/ItemRowViewModel.Route.edit),
+            destination: { $item in
+                LazyView(
+                    ItemView(item: $item)
+                        .navigationTitle("Edit")
+                        .navigationBarBackButtonHidden(true)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancel", action: viewModel.cancelButtonTapped)
+                            }
+                            
+                            ToolbarItem(placement: .primaryAction) {
+                                Button("Save") {
+                                    self.viewModel.edit(item: $item.wrappedValue)
                                 }
                             }
-                    )
-                }
+                        }
+                )
             }
         ) {
             HStack {

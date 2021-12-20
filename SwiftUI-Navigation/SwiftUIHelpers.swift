@@ -180,7 +180,7 @@ extension NavigationLink {
 
 extension Binding {
     func didSet(_ callback: @escaping (Value) -> Void) -> Self {
-        .init(
+        Binding(
             get: { self.wrappedValue },
             set: {
                 self.wrappedValue = $0

@@ -48,9 +48,16 @@ final class ItemRowViewModel: Identifiable, ObservableObject {
         self.route = isActive ? .edit(self.item) : nil
     }
     
+    @Published var isSaving = false
+    
     func edit(item: Item) {
-        self.item = item
-        self.route = nil
+        self.isSaving = true
+        Task { @MainActor in
+            try await Task.sleep(nanoseconds: NSEC_PER_SEC)
+            self.isSaving = false
+            self.item = item
+            self.route = nil
+        }
     }
     
     func cancelButtonTapped() {
@@ -91,9 +98,15 @@ struct ItemRowView: View {
                             }
                             
                             ToolbarItem(placement: .primaryAction) {
-                                Button("Save") {
-                                    self.viewModel.edit(item: $item.wrappedValue)
+                                HStack {
+                                    if self.viewModel.isSaving {
+                                        ProgressView()
+                                    }
+                                    Button("Save") {
+                                        self.viewModel.edit(item: $item.wrappedValue)
+                                    }
                                 }
+                                .disabled(self.viewModel.isSaving)
                             }
                         }
                 )

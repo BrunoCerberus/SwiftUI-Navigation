@@ -134,11 +134,6 @@ struct ItemRowView: View {
                 }
                 .padding(.leading)
                 
-    //            Button(action: viewModel.editButtonTapped) {
-    //                Image(systemName: "pencil")
-    //            }
-    //            .padding(.leading)
-                
                 Button(action: viewModel.deleteButtonTapped) {
                     Image(systemName: "trash.fill")
                 }

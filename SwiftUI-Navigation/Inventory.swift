@@ -7,6 +7,7 @@
 
 import SwiftUI
 import IdentifiedCollections
+import CasePaths
 
 struct Item: Equatable, Identifiable {
   let id = UUID()
@@ -54,14 +55,19 @@ struct Item: Equatable, Identifiable {
 
 final class InventoryViewModel: ObservableObject {
     @Published var inventory: IdentifiedArrayOf<ItemRowViewModel>
-    @Published var itemToAdd: Item?
+    @Published var route: Route?
+    
+    enum Route {
+        case add(Item)
+        case row(id: ItemRowViewModel.ID, row: ItemRowViewModel.Route)
+    }
     
     init(
         inventory: IdentifiedArrayOf<ItemRowViewModel> = [],
-        itemToAdd: Item? = nil
+        route: Route? = nil
     ) {
         self.inventory = []
-        self.itemToAdd = itemToAdd
+        self.route = route
         
         for itemRowViewModel in inventory {
             self.bind(itemRowViewModel: itemRowViewModel)
@@ -86,7 +92,7 @@ final class InventoryViewModel: ObservableObject {
     func add(item: Item) {
         withAnimation {
             self.bind(itemRowViewModel: ItemRowViewModel(item: item))
-            self.itemToAdd = nil
+            self.route = nil
         }
     }
     
@@ -97,16 +103,18 @@ final class InventoryViewModel: ObservableObject {
     }
     
     func addButtonTapped() {
-        self.itemToAdd = Item(name: "", color: nil, status: .inStock(quantity: 1))
+        self.route = .add(Item(name: "", color: nil, status: .inStock(quantity: 1)))
         
         Task { @MainActor in
             try await Task.sleep(nanoseconds: 500 * NSEC_PER_MSEC)
-            self.itemToAdd?.name = "Bluetooth Keyboard"
+            try (/Route.add).modify(&route) {
+                $0.name = "Bluetooth Keyboard"
+            }
         }
     }
     
     func dismissSheet() {
-        self.itemToAdd = nil
+        self.route = nil
     }
 }
 
@@ -121,7 +129,7 @@ struct InventoryView: View {
             )
                 .onDelete(perform: delete)
         }
-        .sheet(unwrap: $viewModel.itemToAdd) { $itemToAdd in
+        .sheet(unwrap: $viewModel.route.case(/InventoryViewModel.Route.add)) { $itemToAdd in
             NavigationView {
                 ItemView(item: $itemToAdd)
                     .navigationTitle("Add")

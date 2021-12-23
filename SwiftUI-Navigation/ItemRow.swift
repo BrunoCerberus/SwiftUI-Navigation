@@ -24,11 +24,9 @@ final class ItemRowViewModel: Identifiable, ObservableObject {
     var id: Item.ID { self.item.id }
     
     init(
-        item: Item,
-        route: Route? = nil
+        item: Item
     ) {
         self.item = item
-        self.route = route
     }
     
     func deleteButtonTapped() {

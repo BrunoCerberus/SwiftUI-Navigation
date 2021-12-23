@@ -57,9 +57,9 @@ final class InventoryViewModel: ObservableObject {
     @Published var inventory: IdentifiedArrayOf<ItemRowViewModel>
     @Published var route: Route?
     
-    enum Route {
+    enum Route: Equatable {
         case add(Item)
-        case row(id: ItemRowViewModel.ID, row: ItemRowViewModel.Route)
+        case row(id: ItemRowViewModel.ID, route: ItemRowViewModel.Route)
     }
     
     init(
@@ -86,6 +86,28 @@ final class InventoryViewModel: ObservableObject {
                 self?.add(item: item)
             }
         }
+        
+        // updates any changes on ItemRowViewModel route to InventoryViewModel route
+        itemRowViewModel.$route
+            .map { [id = itemRowViewModel.id] route in
+                route.map { Route.row(id: id, route: $0) }
+            }
+            .removeDuplicates()
+            .dropFirst()
+            .assign(to: &$route)
+        
+        // updates any chantes on InventoryViewModel route on ItemRowViewModel route
+        $route
+            .map { [id = itemRowViewModel.id] route in
+                guard
+                    case let .row(id: routeRowId, route: route) = route, routeRowId == id else {
+                        return nil
+                    }
+                return route
+            }
+            .removeDuplicates()
+            .assign(to: &itemRowViewModel.$route)
+        
         self.inventory.append(itemRowViewModel)
     }
     

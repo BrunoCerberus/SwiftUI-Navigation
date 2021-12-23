@@ -22,7 +22,8 @@ struct SwiftUI_NavigationApp: App {
                     .init(item: Item(name: "Phone", color: .green, status: .outOfStock(isOnBackOrder: true))),
                     .init(item: Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false))),
                 ],
-                route: .row(id: keyboard.id, route: .deleteAlert)
+                route: nil
+//                route: .row(id: keyboard.id, route: .deleteAlert)
             )
         )
         

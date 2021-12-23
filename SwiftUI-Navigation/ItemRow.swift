@@ -40,10 +40,6 @@ final class ItemRowViewModel: Identifiable, ObservableObject {
         onDelete()
     }
     
-//    func editButtonTapped() {
-//        self.route = .edit(self.item)
-//    }
-    
     func setEditNavigation(isActive: Bool) {
         self.route = isActive ? .edit(self.item) : nil
     }

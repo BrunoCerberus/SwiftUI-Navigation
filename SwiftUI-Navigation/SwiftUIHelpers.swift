@@ -152,7 +152,15 @@ extension View {
         }
     }
     
-    func popover<Value, Content>(
+    func popover<Enum, Case, Content>(
+        unwrap optionalValue: Binding<Enum?>,
+        case casePath: CasePath<Enum, Case>,
+        @ViewBuilder content: @escaping (Binding<Case>) -> Content
+    ) -> some View where Case: Identifiable, Content: View {
+        self.popover(unwrap: optionalValue.case(casePath), content: content)
+    }
+    
+    private func popover<Value, Content>(
         unwrap optionalValue: Binding<Value?>,
         @ViewBuilder content: @escaping (Binding<Value>) -> Content
     ) -> some View where Value: Identifiable, Content: View {

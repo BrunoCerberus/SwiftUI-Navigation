@@ -39,7 +39,22 @@ extension Binding {
 }
 
 extension View {
-    func alert<A: View, M: View, T>(
+    func alert<A: View, M: View, Enum, Case>(
+        title: (Case) -> Text,
+        unwrap data: Binding<Enum?>,
+        case casePath: CasePath<Enum, Case>,
+        @ViewBuilder actions: @escaping (Case) -> A,
+        @ViewBuilder message: @escaping (Case) -> M
+    ) -> some View {
+        self.alert(
+            title: title,
+            presenting: data.case(casePath),
+            actions: actions,
+            message: message
+        )
+    }
+    
+    private func alert<A: View, M: View, T>(
         title: (T) -> Text,
         presenting data: Binding<T?>,
         @ViewBuilder actions: @escaping (T) -> A,
@@ -54,7 +69,24 @@ extension View {
         )
     }
     
-    func confirmationDialog<A: View, M: View, T>(
+    func confirmationDialog<A: View, M: View, Enum, Case>(
+        title: (Case) -> Text,
+        titleVisibility: Visibility = .automatic,
+        unwrap data: Binding<Enum?>,
+        case casePath: CasePath<Enum, Case>,
+        @ViewBuilder actions: @escaping (Case) -> A,
+        @ViewBuilder message: @escaping (Case) -> M
+    ) -> some View {
+        self.confirmationDialog(
+            title: title,
+            titleVisibility: .automatic,
+            presenting: data.case(casePath),
+            actions: actions,
+            message: message
+        )
+    }
+    
+    private func confirmationDialog<A: View, M: View, T>(
         title: (T) -> Text,
         titleVisibility: Visibility = .automatic,
         presenting data: Binding<T?>,

@@ -17,15 +17,15 @@ final class SwiftUI_NavigationTests: XCTestCase {
         viewModel.addButtonTapped()
         
         // There must be an Item in itemToAdd
-        XCTAssertNotNil(viewModel.itemToAdd)
+        XCTAssertNotNil(viewModel.route)
         
-        let itemToAdd = try XCTUnwrap(viewModel.itemToAdd)
+        let itemToAdd = try XCTUnwrap((/InventoryViewModel.Route.add).extract(from: try XCTUnwrap(viewModel.route)))
         
-        // When an Item isso added throw .add(item:)
+        // When an Item is added through .add(item:)
         viewModel.add(item: itemToAdd)
         
         // It must be nothing in itemToAdd
-        XCTAssertNil(viewModel.itemToAdd)
+        XCTAssertNil(viewModel.route)
         // The inventonry count must be one
         XCTAssertEqual(viewModel.inventory.count, 1)
         // and the inventory item must be equal to itemToAdd constant

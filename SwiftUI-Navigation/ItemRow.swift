@@ -139,9 +139,10 @@ struct ItemRowView: View {
                 .padding(.leading)
             }
             .confirmationDialog(
-                self.viewModel.item.name,
-                isPresented: self.$viewModel.route.isPresent(/ItemRowViewModel.Route.deleteAlert),
+                title: { Text(self.viewModel.item.name) },
                 titleVisibility: .visible,
+                unwrap: self.$viewModel.route,
+                case: /ItemRowViewModel.Route.deleteAlert,
                 actions: {
                     Button("Delete", role: .destructive) {
                         self.viewModel.deleteConfirmationButtonTapped()

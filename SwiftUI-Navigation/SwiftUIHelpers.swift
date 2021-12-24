@@ -79,7 +79,7 @@ extension View {
     ) -> some View {
         self.confirmationDialog(
             title: title,
-            titleVisibility: .automatic,
+            titleVisibility: titleVisibility,
             presenting: data.case(casePath),
             actions: actions,
             message: message

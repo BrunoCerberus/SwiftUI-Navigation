@@ -52,6 +52,8 @@ final class SwiftUI_NavigationTests: XCTestCase {
         
         // my inventory array must have nothing
         XCTAssertEqual(viewModel.inventory.count, 0)
+        // and parent rounte must be nil
+        XCTAssertEqual(viewModel.route, nil)
     }
     
     func testDuplicateItem() {

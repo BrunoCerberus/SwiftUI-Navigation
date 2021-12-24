@@ -189,3 +189,20 @@ extension Binding {
         )
     }
 }
+
+extension NavigationLink {
+    init<Enum, Case, Wrapped>(
+        unwrap optionalValue: Binding<Enum?>,
+        case casePath: CasePath<Enum, Case>,
+        onNavigate: @escaping (Bool) -> Void,
+        @ViewBuilder destination: @escaping (Binding<Case>) -> Wrapped,
+        @ViewBuilder label: @escaping () -> Label
+    ) where Destination == Wrapped?
+    {
+        self.init(unwrap: optionalValue.case(casePath),
+                  onNavigate: onNavigate,
+                  destination: destination,
+                  label: label
+        )
+    }
+}

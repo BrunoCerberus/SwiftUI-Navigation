@@ -131,7 +131,15 @@ extension Binding {
 }
 
 extension View {
-    func sheet<Value, Content>(
+    func sheet<Enum, Case, Content>(
+        unwrap optionalValue: Binding<Enum?>,
+        case casePath: CasePath<Enum, Case>,
+        @ViewBuilder content: @escaping (Binding<Case>) -> Content
+    ) -> some View where Case: Identifiable, Content: View {
+        self.sheet(unwrap: optionalValue.case(casePath), content: content)
+    }
+    
+    private func sheet<Value, Content>(
         unwrap optionalValue: Binding<Value?>,
         @ViewBuilder content: @escaping (Binding<Value>) -> Content
     ) -> some View where Value: Identifiable, Content: View {

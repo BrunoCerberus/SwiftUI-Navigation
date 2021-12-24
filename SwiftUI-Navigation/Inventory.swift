@@ -151,7 +151,9 @@ struct InventoryView: View {
             )
                 .onDelete(perform: delete)
         }
-        .sheet(unwrap: $viewModel.route.case(/InventoryViewModel.Route.add)) { $itemToAdd in
+        .sheet(unwrap: $viewModel.route,
+               case: /InventoryViewModel.Route.add
+        ) { $itemToAdd in
             NavigationView {
                 ItemView(item: $itemToAdd)
                     .navigationTitle("Add")

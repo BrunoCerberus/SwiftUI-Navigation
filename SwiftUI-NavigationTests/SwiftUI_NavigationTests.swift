@@ -69,7 +69,7 @@ final class SwiftUI_NavigationTests: XCTestCase {
         // then user hits on duplicate button
         viewModel.inventory[0].duplicateButtonTapped()
 //        XCTAssertEqual(viewModel.inventory[0].route, .duplicate(item))
-        // and then route variable for that particular ItemRowViewModel must be .duplicate(Itm)
+        // and then route variable for that particular ItemRowViewModel must be .duplicate(Item)
         XCTAssertNotNil(
             (/ItemRowViewModel.Route.duplicate).extract(from: try XCTUnwrap(viewModel.inventory[0].route))
         )
@@ -87,5 +87,23 @@ final class SwiftUI_NavigationTests: XCTestCase {
         XCTAssertEqual(viewModel.inventory[1].item, dup)
         // and our route for first item doesn't exists anymore
         XCTAssertNil(viewModel.inventory[0].route)
+    }
+    
+    func testEdit() {
+        // There is an Item
+        let item: Item = .init(name: "Keyboard", color: .red, status: .inStock(quantity: 1))
+        // And a viewModel with this item
+        let viewModel = InventoryViewModel(
+            inventory: [
+                .init(item: item)
+            ]
+        )
+        
+        viewModel.inventory[0].setEditNavigation(isActive: true)
+        
+        // and then route variable for that particular ItemRowViewModel must be .edit(Item)
+        XCTAssertNotNil(
+            (/ItemRowViewModel.Route.edit).extract(from: try XCTUnwrap(viewModel.inventory[0].route))
+        )
     }
 }

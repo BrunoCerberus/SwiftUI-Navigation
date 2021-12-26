@@ -68,7 +68,7 @@ final class SwiftUI_NavigationTests: XCTestCase {
         
         // then user hits on duplicate button
         viewModel.inventory[0].duplicateButtonTapped()
-//        XCTAssertEqual(viewModel.inventory[0].route, .duplicate(item))
+        
         // and then route variable for that particular ItemRowViewModel must be .duplicate(Item)
         XCTAssertNotNil(
             (/ItemRowViewModel.Route.duplicate).extract(from: try XCTUnwrap(viewModel.inventory[0].route))

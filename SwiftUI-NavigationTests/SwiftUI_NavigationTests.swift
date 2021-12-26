@@ -89,7 +89,7 @@ final class SwiftUI_NavigationTests: XCTestCase {
         XCTAssertNil(viewModel.inventory[0].route)
     }
     
-    func testEdit() {
+    func testEdit() async throws {
         // There is an Item
         let item: Item = .init(name: "Keyboard", color: .red, status: .inStock(quantity: 1))
         // And a viewModel with this item
@@ -105,5 +105,30 @@ final class SwiftUI_NavigationTests: XCTestCase {
         XCTAssertNotNil(
             (/ItemRowViewModel.Route.edit).extract(from: try XCTUnwrap(viewModel.inventory[0].route))
         )
+        
+        // and we make some changes on that item
+        var editedItem = item
+        editedItem.color = .blue
+        // make navigation with .edit(item:)
+        viewModel.inventory[0].route = .edit(editedItem)
+        
+        // hit edit action to save edited item
+        viewModel.inventory[0].edit(item: editedItem)
+        
+        
+        // ProgressView must be shown
+        XCTAssertEqual(viewModel.inventory[0].isSaving, true)
+        
+        // wait our async task to be finished
+        try await Task.sleep(nanoseconds: NSEC_PER_SEC + 100 * NSEC_PER_MSEC)
+        
+        // row route must be nil
+        XCTAssertNil(viewModel.inventory[0].route)
+        // parent route must be nil
+        XCTAssertNil(viewModel.route)
+        // our row item must be the editedItem
+        XCTAssertEqual(viewModel.inventory[0].item, editedItem)
+        // and ProgressView must hide
+        XCTAssertEqual(viewModel.inventory[0].isSaving, false)
     }
 }

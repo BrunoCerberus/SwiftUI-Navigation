@@ -34,6 +34,7 @@ final class SwiftUI_NavigationTests: XCTestCase {
     }
     
     func testDeleteItem() {
+        // we have an inventory with one item
         let viewModel = InventoryViewModel(
             inventory: [
                 .init(item: .init(name: "Keyboard", color: .red, status: .inStock(quantity: 1)))

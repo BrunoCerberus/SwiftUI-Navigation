@@ -19,6 +19,7 @@ final class SwiftUI_NavigationTests: XCTestCase {
         // There must be an Item in itemToAdd
         XCTAssertNotNil(viewModel.route)
         
+        // unwrap an optional into a honest value
         let itemToAdd = try XCTUnwrap((/InventoryViewModel.Route.add).extract(from: try XCTUnwrap(viewModel.route)))
         
         // When an Item is added through .add(item:)
@@ -99,6 +100,7 @@ final class SwiftUI_NavigationTests: XCTestCase {
             ]
         )
         
+        // make navigation with .edit(item:)
         viewModel.inventory[0].setEditNavigation(isActive: true)
         
         // and then route variable for that particular ItemRowViewModel must be .edit(Item)
@@ -109,8 +111,6 @@ final class SwiftUI_NavigationTests: XCTestCase {
         // and we make some changes on that item
         var editedItem = item
         editedItem.color = .blue
-        // make navigation with .edit(item:)
-        viewModel.inventory[0].route = .edit(editedItem)
         
         // hit edit action to save edited item
         viewModel.inventory[0].edit(item: editedItem)

@@ -228,7 +228,7 @@ extension NavigationLink {
         )
     }
     
-    init<Value, Wrapped>(
+    private init<Value, Wrapped>(
         unwrap optionalValue: Binding<Value?>,
         onNavigate: @escaping (Bool) -> Void,
         @ViewBuilder destination: @escaping (Binding<Value>) -> Wrapped,

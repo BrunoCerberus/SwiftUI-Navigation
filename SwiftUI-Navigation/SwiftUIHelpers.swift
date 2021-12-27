@@ -102,6 +102,48 @@ extension View {
             message: message
         )
     }
+    
+    func sheet<Enum, Case, Content>(
+        unwrap optionalValue: Binding<Enum?>,
+        case casePath: CasePath<Enum, Case>,
+        @ViewBuilder content: @escaping (Binding<Case>) -> Content
+    ) -> some View where Case: Identifiable, Content: View {
+        self.sheet(unwrap: optionalValue.case(casePath), content: content)
+    }
+    
+    private func sheet<Value, Content>(
+        unwrap optionalValue: Binding<Value?>,
+        @ViewBuilder content: @escaping (Binding<Value>) -> Content
+    ) -> some View where Value: Identifiable, Content: View {
+        self.sheet(
+            item: optionalValue
+        ) { _ in
+            if let value = Binding(unwrap: optionalValue) {
+                content(value)
+            }
+        }
+    }
+    
+    func popover<Enum, Case, Content>(
+        unwrap optionalValue: Binding<Enum?>,
+        case casePath: CasePath<Enum, Case>,
+        @ViewBuilder content: @escaping (Binding<Case>) -> Content
+    ) -> some View where Case: Identifiable, Content: View {
+        self.popover(unwrap: optionalValue.case(casePath), content: content)
+    }
+    
+    private func popover<Value, Content>(
+        unwrap optionalValue: Binding<Value?>,
+        @ViewBuilder content: @escaping (Binding<Value>) -> Content
+    ) -> some View where Value: Identifiable, Content: View {
+        self.popover(
+            item: optionalValue
+        ) { _ in
+            if let value = Binding(unwrap: optionalValue) {
+                content(value)
+            }
+        }
+    }
 }
 
 struct IfCaseLet<Enum, Case, Content>: View where Content: View {
@@ -169,50 +211,6 @@ extension Binding {
                 callback($0)
             }
         )
-    }
-}
-
-extension View {
-    func sheet<Enum, Case, Content>(
-        unwrap optionalValue: Binding<Enum?>,
-        case casePath: CasePath<Enum, Case>,
-        @ViewBuilder content: @escaping (Binding<Case>) -> Content
-    ) -> some View where Case: Identifiable, Content: View {
-        self.sheet(unwrap: optionalValue.case(casePath), content: content)
-    }
-    
-    private func sheet<Value, Content>(
-        unwrap optionalValue: Binding<Value?>,
-        @ViewBuilder content: @escaping (Binding<Value>) -> Content
-    ) -> some View where Value: Identifiable, Content: View {
-        self.sheet(
-            item: optionalValue
-        ) { _ in
-            if let value = Binding(unwrap: optionalValue) {
-                content(value)
-            }
-        }
-    }
-    
-    func popover<Enum, Case, Content>(
-        unwrap optionalValue: Binding<Enum?>,
-        case casePath: CasePath<Enum, Case>,
-        @ViewBuilder content: @escaping (Binding<Case>) -> Content
-    ) -> some View where Case: Identifiable, Content: View {
-        self.popover(unwrap: optionalValue.case(casePath), content: content)
-    }
-    
-    private func popover<Value, Content>(
-        unwrap optionalValue: Binding<Value?>,
-        @ViewBuilder content: @escaping (Binding<Value>) -> Content
-    ) -> some View where Value: Identifiable, Content: View {
-        self.popover(
-            item: optionalValue
-        ) { _ in
-            if let value = Binding(unwrap: optionalValue) {
-                content(value)
-            }
-        }
     }
 }
 

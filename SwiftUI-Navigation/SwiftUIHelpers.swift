@@ -160,6 +160,16 @@ extension Binding {
             }
         )
     }
+    
+    func didSet(_ callback: @escaping (Value) -> Void) -> Self {
+        Binding(
+            get: { self.wrappedValue },
+            set: {
+                self.wrappedValue = $0
+                callback($0)
+            }
+        )
+    }
 }
 
 extension View {
@@ -207,6 +217,21 @@ extension View {
 }
 
 extension NavigationLink {
+    init<Enum, Case, Wrapped>(
+        unwrap optionalValue: Binding<Enum?>,
+        case casePath: CasePath<Enum, Case>,
+        onNavigate: @escaping (Bool) -> Void,
+        @ViewBuilder destination: @escaping (Binding<Case>) -> Wrapped,
+        @ViewBuilder label: @escaping () -> Label
+    ) where Destination == Wrapped?
+    {
+        self.init(unwrap: optionalValue.case(casePath),
+                  onNavigate: onNavigate,
+                  destination: destination,
+                  label: label
+        )
+    }
+    
     init<Value, Wrapped>(
         unwrap optionalValue: Binding<Value?>,
         onNavigate: @escaping (Bool) -> Void,
@@ -222,35 +247,6 @@ extension NavigationLink {
                 }
             },
             label: label
-        )
-    }
-}
-
-extension Binding {
-    func didSet(_ callback: @escaping (Value) -> Void) -> Self {
-        Binding(
-            get: { self.wrappedValue },
-            set: {
-                self.wrappedValue = $0
-                callback($0)
-            }
-        )
-    }
-}
-
-extension NavigationLink {
-    init<Enum, Case, Wrapped>(
-        unwrap optionalValue: Binding<Enum?>,
-        case casePath: CasePath<Enum, Case>,
-        onNavigate: @escaping (Bool) -> Void,
-        @ViewBuilder destination: @escaping (Binding<Case>) -> Wrapped,
-        @ViewBuilder label: @escaping () -> Label
-    ) where Destination == Wrapped?
-    {
-        self.init(unwrap: optionalValue.case(casePath),
-                  onNavigate: onNavigate,
-                  destination: destination,
-                  label: label
         )
     }
 }

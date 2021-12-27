@@ -9,6 +9,15 @@ import SwiftUI
 import CasePaths
 
 extension Binding {
+    init?(unwrap binding: Binding<Value?>) {
+        guard let wrappedValue = binding.wrappedValue else { return nil }
+        
+        self.init(
+            get: { wrappedValue },
+            set: { binding.wrappedValue = $0 }
+        )
+    }
+    
     func isPresent<Wrapped>() -> Binding<Bool> where Value == Wrapped? {
         Binding<Bool>(
             get: { self.wrappedValue != nil  },
@@ -33,6 +42,36 @@ extension Binding {
                 if !isPresented {
                     self.wrappedValue = nil
                 }
+            }
+        )
+    }
+    
+    func `case`<Enum, Case>(_ casePath: CasePath<Enum, Case>) -> Binding<Case?> where Value == Enum? {
+        Binding<Case?>(
+            get: {
+                guard
+                    let wrappedValue = self.wrappedValue,
+                    let `case` = casePath.extract(from: wrappedValue)
+                else { return nil }
+                
+                return `case`
+            },
+            set: { `case` in
+                if let `case` = `case` {
+                    self.wrappedValue = casePath.embed(`case`)
+                } else {
+                    self.wrappedValue = nil
+                }
+            }
+        )
+    }
+    
+    func didSet(_ callback: @escaping (Value) -> Void) -> Self {
+        Binding(
+            get: { self.wrappedValue },
+            set: {
+                self.wrappedValue = $0
+                callback($0)
             }
         )
     }
@@ -170,47 +209,6 @@ struct IfCaseLet<Enum, Case, Content>: View where Content: View {
                 )
             )
         }
-    }
-}
-
-extension Binding {
-    init?(unwrap binding: Binding<Value?>) {
-        guard let wrappedValue = binding.wrappedValue else { return nil }
-        
-        self.init(
-            get: { wrappedValue },
-            set: { binding.wrappedValue = $0 }
-        )
-    }
-    
-    func `case`<Enum, Case>(_ casePath: CasePath<Enum, Case>) -> Binding<Case?> where Value == Enum? {
-        Binding<Case?>(
-            get: {
-                guard
-                    let wrappedValue = self.wrappedValue,
-                    let `case` = casePath.extract(from: wrappedValue)
-                else { return nil }
-                
-                return `case`
-            },
-            set: { `case` in
-                if let `case` = `case` {
-                    self.wrappedValue = casePath.embed(`case`)
-                } else {
-                    self.wrappedValue = nil
-                }
-            }
-        )
-    }
-    
-    func didSet(_ callback: @escaping (Value) -> Void) -> Self {
-        Binding(
-            get: { self.wrappedValue },
-            set: {
-                self.wrappedValue = $0
-                callback($0)
-            }
-        )
     }
 }
 

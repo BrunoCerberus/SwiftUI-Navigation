@@ -152,23 +152,6 @@ struct ItemRowView: View {
                     Text("Are you sure that you want to delete this item?")
                 }
             )
-    //        .sheet(unwrap: self.$viewModel.route.case(/ItemRowViewModel.Route.edit)) { $item in
-    //            NavigationView {
-    //                ItemView(item: $item)
-    //                    .navigationTitle("Edit")
-    //                    .toolbar {
-    //                        ToolbarItem(placement: .cancellationAction) {
-    //                            Button("Cancel", action: viewModel.cancelButtonTapped)
-    //                        }
-    //
-    //                        ToolbarItem(placement: .primaryAction) {
-    //                            Button("Save") {
-    //                                self.viewModel.edit(item: item)
-    //                            }
-    //                        }
-    //                    }
-    //            }
-    //        }
             .popover(
                 unwrap: self.$viewModel.route,
                 case: /ItemRowViewModel.Route.duplicate

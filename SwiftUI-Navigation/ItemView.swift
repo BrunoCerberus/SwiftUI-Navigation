@@ -13,11 +13,21 @@ struct ItemView: View {
     // The problem with @State that it takes initial values but not consider to
     // re-render screen with any changed of its value from outside
     @Binding var item: Item
+    @State var nameIsDuplicate: Bool = false
     
     var body: some View {
         VStack {
             Form {
                 TextField("Name", text: self.$item.name)
+                    .background(self.nameIsDuplicate ? Color.red.opacity(0.1) : Color.clear)
+                    .onChange(of: item.name, perform: { newName in
+                        // TODO: Validation logic
+                        Task { @MainActor in
+                            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 300)
+                            self.nameIsDuplicate = newName == "Keyboard"
+                        }
+                    })
+                
                 Picker(selection: self.$item.color, label: Text("Color")) {
                     Text("None")
                         .tag(Item.Color?.none)

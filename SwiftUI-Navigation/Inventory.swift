@@ -58,8 +58,19 @@ final class InventoryViewModel: ObservableObject {
     @Published var route: Route?
     
     enum Route: Equatable {
-        case add(Item)
+        case add(ItemViewModel)
         case row(id: ItemRowViewModel.ID, route: ItemRowViewModel.Route)
+        
+        static func == (lhs: Self, rhs: Self) -> Bool {
+            switch (lhs, rhs) {
+            case let (.add(lhs), .add(rhs)):
+                return lhs === rhs
+            case let (.row(id: lhsId, route: lhsRoute), .row(id: rhsId, route: rhsRoute)):
+                return lhsId == rhsId && lhsRoute == rhsRoute
+            case (.add, .row), (.row, .add):
+                return false
+            }
+        }
     }
     
     init(
@@ -87,7 +98,7 @@ final class InventoryViewModel: ObservableObject {
             }
         }
         
-        // updates any changes on ItemRowViewModel route to InventoryViewModel route
+        // updates any changes from ItemRowViewModel route on InventoryViewModel route
         itemRowViewModel.$route
             .map { [id = itemRowViewModel.id] route in
                 route.map { Route.row(id: id, route: $0) }
@@ -96,7 +107,7 @@ final class InventoryViewModel: ObservableObject {
             .dropFirst()
             .assign(to: &$route)
         
-        // updates any chantes on InventoryViewModel route on ItemRowViewModel route
+        // updates any chantes from InventoryViewModel route on ItemRowViewModel route
         $route
             .map { [id = itemRowViewModel.id] route in
                 guard
@@ -125,12 +136,12 @@ final class InventoryViewModel: ObservableObject {
     }
     
     func addButtonTapped() {
-        self.route = .add(Item(name: "", color: nil, status: .inStock(quantity: 1)))
+        self.route = .add(.init(item: Item(name: "", color: nil, status: .inStock(quantity: 1))))
         
         Task { @MainActor in
             try await Task.sleep(nanoseconds: 500 * NSEC_PER_MSEC)
             try (/Route.add).modify(&route) {
-                $0.name = "Bluetooth Keyboard"
+                $0.item.name = "Bluetooth Keyboard"
             }
         }
     }
@@ -155,7 +166,7 @@ struct InventoryView: View {
                case: /InventoryViewModel.Route.add
         ) { $itemToAdd in
             NavigationView {
-                ItemView(item: $itemToAdd)
+                ItemView(viewModel: itemToAdd)
                     .navigationTitle("Add")
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
@@ -164,7 +175,7 @@ struct InventoryView: View {
                         
                         ToolbarItem(placement: .primaryAction) {
                             Button("Save") {
-                                viewModel.add(item: itemToAdd)
+                                viewModel.add(item: itemToAdd.item)
                             }
                         }
                     }

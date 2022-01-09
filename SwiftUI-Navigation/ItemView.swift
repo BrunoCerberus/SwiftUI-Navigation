@@ -8,6 +8,16 @@
 import SwiftUI
 import CasePaths
 
+final class ItemViewModel: Identifiable, ObservableObject {
+    @Published var item: Item
+    
+    var id: Item.ID { self.item.id }
+    
+    init(item: Item) {
+        self.item = item
+    }
+}
+
 struct ColorPickerView: View {
     @Binding var color: Item.Color?
     @Environment(\.dismiss) var dismiss
@@ -79,15 +89,16 @@ struct ItemView: View {
     
     // The problem with @State that it takes initial values but not consider to
     // re-render screen with any changed of its value from outside
-    @Binding var item: Item
+//    @Binding var item: Item
+    @ObservedObject var viewModel: ItemViewModel
     @State var nameIsDuplicate: Bool = false
     
     var body: some View {
         VStack {
             Form {
-                TextField("Name", text: self.$item.name)
+                TextField("Name", text: self.$viewModel.item.name)
                     .background(self.nameIsDuplicate ? Color.red.opacity(0.1) : Color.clear)
-                    .onChange(of: item.name, perform: { newName in
+                    .onChange(of: viewModel.item.name, perform: { newName in
                         // TODO: Validation logic
                         Task { @MainActor in
                             try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 300)
@@ -105,22 +116,22 @@ struct ItemView: View {
 //                    }
 //                }
                 
-                NavigationLink(destination: ColorPickerView(color: self.$item.color)) {
+                NavigationLink(destination: ColorPickerView(color: self.$viewModel.item.color)) {
                     HStack {
                         Text("Color")
                         Spacer()
-                        if let color = self.item.color {
+                        if let color = self.viewModel.item.color {
                             Rectangle()
                                 .frame(width: 30, height: 30)
                                 .foregroundColor(color.swiftUIColor)
                                 .border(Color.black, width: 1)
                         }
-                        Text(item.color?.name ?? "None")
+                        Text(viewModel.item.color?.name ?? "None")
                             .foregroundColor(.gray)
                     }
                 }
                 
-                IfCaseLet(self.$item.status, pattern: /Item.Status.inStock) {
+                IfCaseLet(self.$viewModel.item.status, pattern: /Item.Status.inStock) {
                    $quantity in
                     
                     Section(header: Text("In Stock")) {
@@ -129,12 +140,12 @@ struct ItemView: View {
                             value: $quantity
                         )
                         Button("Mark as sold out") {
-                            self.item.status = .outOfStock(isOnBackOrder: false)
+                            self.viewModel.item.status = .outOfStock(isOnBackOrder: false)
                         }
                     }
                 }
                 
-                IfCaseLet(self.$item.status, pattern: /Item.Status.outOfStock) {
+                IfCaseLet(self.$viewModel.item.status, pattern: /Item.Status.outOfStock) {
                     $isOnBackOrder in
                     
                     Section(header: Text("Out of Stock")) {
@@ -143,7 +154,7 @@ struct ItemView: View {
                             isOn: $isOnBackOrder
                         )
                         Button("Is back in stock!") {
-                            self.item.status = .inStock(quantity: 1)
+                            self.viewModel.item.status = .inStock(quantity: 1)
                         }
                     }
                 }
@@ -157,13 +168,13 @@ struct ItemView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ItemView(
-                item: .constant(
-                    Item(
-                        name: "",
-                        color: nil,
-                        status: .inStock(quantity: 1)
-                    )
+               viewModel: ItemViewModel(
+                item: Item(
+                    name: "",
+                    color: nil,
+                    status: .inStock(quantity: 1)
                 )
+               )
             )
         }
         .preferredColorScheme(.dark)

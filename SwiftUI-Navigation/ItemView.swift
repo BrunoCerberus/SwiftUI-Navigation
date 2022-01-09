@@ -10,10 +10,14 @@ import CasePaths
 
 struct ColorPickerView: View {
     @Binding var color: Item.Color?
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         Form {
-            Button(action: { self.color = nil }) {
+            Button(action: {
+                self.color = nil
+                self.dismiss()
+            }) {
                 HStack {
                     Text("None")
                     Spacer()
@@ -25,7 +29,10 @@ struct ColorPickerView: View {
             
             Section(header: Text("Default colors")) {
                 ForEach(Item.Color.defaults, id: \.name) { color in
-                    Button(action: { self.color = color }) {
+                    Button(action: {
+                        self.color = color
+                        self.dismiss()
+                    }) {
                         HStack {
                             Text(color.name)
                             Spacer()

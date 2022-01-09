@@ -27,7 +27,7 @@ struct ColorPickerView: View {
                 ForEach(Item.Color.defaults, id: \.name) { color in
                     Button(action: { self.color = color }) {
                         HStack {
-                            Text("None")
+                            Text(color.name)
                             Spacer()
                             if self.color == color {
                                 Image(systemName: "checkmark")
@@ -60,13 +60,28 @@ struct ItemView: View {
                         }
                     })
                 
-                Picker(selection: self.$item.color, label: Text("Color")) {
-                    Text("None")
-                        .tag(Item.Color?.none)
-                    
-                    ForEach(Item.Color.defaults, id: \.name) { color in
-                        Text(color.name)
-                            .tag(Optional(color))
+//                Picker(selection: self.$item.color, label: Text("Color")) {
+//                    Text("None")
+//                        .tag(Item.Color?.none)
+//
+//                    ForEach(Item.Color.defaults, id: \.name) { color in
+//                        Text(color.name)
+//                            .tag(Optional(color))
+//                    }
+//                }
+                
+                NavigationLink(destination: ColorPickerView(color: self.$item.color)) {
+                    HStack {
+                        Text("Color")
+                        Spacer()
+                        if let color = self.item.color {
+                            Rectangle()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(color.swiftUIColor)
+                                .border(Color.black, width: 1)
+                        }
+                        Text(item.color?.name ?? "None")
+                            .foregroundColor(.gray)
                     }
                 }
                 

@@ -11,6 +11,7 @@ import CasePaths
 struct ColorPickerView: View {
     @Binding var color: Item.Color?
     @Environment(\.dismiss) var dismiss
+    @State var newColors: [Item.Color] = []
     
     var body: some View {
         Form {
@@ -42,6 +43,33 @@ struct ColorPickerView: View {
                         }
                     }
                 }
+            }
+            
+            if !self.newColors.isEmpty {
+                Section(header: Text("New colors")) {
+                    ForEach(self.newColors, id: \.name) { color in
+                        Button(action: {
+                            self.color = color
+                            self.dismiss()
+                        }) {
+                            HStack {
+                                Text(color.name)
+                                Spacer()
+                                if self.color == color {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .task {
+            Task { @MainActor in
+                try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 500)
+                self.newColors = [
+                    .init(name: "Pink", red: 1, green: 0.7, blue: 0.7)
+                ]
             }
         }
     }

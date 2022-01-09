@@ -8,6 +8,38 @@
 import SwiftUI
 import CasePaths
 
+struct ColorPickerView: View {
+    @Binding var color: Item.Color?
+    
+    var body: some View {
+        Form {
+            Button(action: { self.color = nil }) {
+                HStack {
+                    Text("None")
+                    Spacer()
+                    if self.color == nil {
+                        Image(systemName: "checkmark")
+                    }
+                }
+            }
+            
+            Section(header: Text("Default colors")) {
+                ForEach(Item.Color.defaults, id: \.name) { color in
+                    Button(action: { self.color = color }) {
+                        HStack {
+                            Text("None")
+                            Spacer()
+                            if self.color == color {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 struct ItemView: View {
     
     // The problem with @State that it takes initial values but not consider to

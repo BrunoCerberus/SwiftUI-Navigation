@@ -10,11 +10,19 @@ import CasePaths
 
 final class ItemViewModel: Identifiable, ObservableObject {
     @Published var item: Item
+    @Published var nameIsDuplicate: Bool = false
     
     var id: Item.ID { self.item.id }
     
     init(item: Item) {
         self.item = item
+        
+        Task { @MainActor in
+            for await item in self.$item.values {
+                try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 300)
+                self.nameIsDuplicate = item.name == "Keyboard"
+            }
+        }
     }
 }
 
@@ -91,20 +99,19 @@ struct ItemView: View {
     // re-render screen with any changed of its value from outside
 //    @Binding var item: Item
     @ObservedObject var viewModel: ItemViewModel
-    @State var nameIsDuplicate: Bool = false
     
     var body: some View {
         VStack {
             Form {
                 TextField("Name", text: self.$viewModel.item.name)
-                    .background(self.nameIsDuplicate ? Color.red.opacity(0.1) : Color.clear)
-                    .onChange(of: viewModel.item.name, perform: { newName in
-                        // TODO: Validation logic
-                        Task { @MainActor in
-                            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 300)
-                            self.nameIsDuplicate = newName == "Keyboard"
-                        }
-                    })
+                    .background(self.viewModel.nameIsDuplicate ? Color.red.opacity(0.1) : Color.clear)
+//                    .onChange(of: viewModel.item.name, perform: { newName in
+//                        // TODO: Validation logic
+//                        Task { @MainActor in
+//                            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 300)
+//                            self.nameIsDuplicate = newName == "Keyboard"
+//                        }
+//                    })
                 
                 NavigationLink(destination: ColorPickerView(color: self.$viewModel.item.color)) {
                     HStack {

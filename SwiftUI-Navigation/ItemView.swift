@@ -106,16 +106,6 @@ struct ItemView: View {
                         }
                     })
                 
-//                Picker(selection: self.$item.color, label: Text("Color")) {
-//                    Text("None")
-//                        .tag(Item.Color?.none)
-//
-//                    ForEach(Item.Color.defaults, id: \.name) { color in
-//                        Text(color.name)
-//                            .tag(Optional(color))
-//                    }
-//                }
-                
                 NavigationLink(destination: ColorPickerView(color: self.$viewModel.item.color)) {
                     HStack {
                         Text("Color")

@@ -28,20 +28,21 @@ final class ItemViewModel: Identifiable, ObservableObject {
 }
 
 struct ColorPickerView: View {
-    @Binding var color: Item.Color?
+    @ObservedObject var viewModel: ItemViewModel
+//    @Binding var color: Item.Color?
     @Environment(\.dismiss) var dismiss
     @State var newColors: [Item.Color] = []
     
     var body: some View {
         Form {
             Button(action: {
-                self.color = nil
+                self.viewModel.item.color = nil
                 self.dismiss()
             }) {
                 HStack {
                     Text("None")
                     Spacer()
-                    if self.color == nil {
+                    if self.viewModel.item.color == nil {
                         Image(systemName: "checkmark")
                     }
                 }
@@ -50,13 +51,13 @@ struct ColorPickerView: View {
             Section(header: Text("Default colors")) {
                 ForEach(Item.Color.defaults, id: \.name) { color in
                     Button(action: {
-                        self.color = color
+                        self.viewModel.item.color = color
                         self.dismiss()
                     }) {
                         HStack {
                             Text(color.name)
                             Spacer()
-                            if self.color == color {
+                            if self.viewModel.item.color == color {
                                 Image(systemName: "checkmark")
                             }
                         }
@@ -68,13 +69,13 @@ struct ColorPickerView: View {
                 Section(header: Text("New colors")) {
                     ForEach(self.newColors, id: \.name) { color in
                         Button(action: {
-                            self.color = color
+                            self.viewModel.item.color = color
                             self.dismiss()
                         }) {
                             HStack {
                                 Text(color.name)
                                 Spacer()
-                                if self.color == color {
+                                if self.viewModel.item.color == color {
                                     Image(systemName: "checkmark")
                                 }
                             }
@@ -107,7 +108,7 @@ struct ItemView: View {
                 TextField("Name", text: self.$viewModel.item.name)
                     .background(self.viewModel.nameIsDuplicate ? Color.red.opacity(0.1) : Color.clear)
                 
-                NavigationLink(destination: LazyView(ColorPickerView(color: self.$viewModel.item.color))) {
+                NavigationLink(destination: LazyView(ColorPickerView(viewModel: self.viewModel))) {
                     HStack {
                         Text("Color")
                         Spacer()

@@ -27,13 +27,20 @@ final class ItemViewModel: Identifiable, ObservableObject {
         }
     }
     
+    @MainActor
     func loadColors() async {
-        Task { @MainActor in
-            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 500)
-            self.newColors = [
-                .init(name: "Pink", red: 1, green: 0.7, blue: 0.7)
-            ]
-        }
+//        Task { @MainActor in
+//            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 500)
+//            self.newColors = [
+//                .init(name: "Pink", red: 1, green: 0.7, blue: 0.7)
+//            ]
+//        }
+        // OR
+        
+        try? await Task.sleep(nanoseconds: NSEC_PER_MSEC * 500)
+        self.newColors = [
+            .init(name: "Pink", red: 1, green: 0.7, blue: 0.7)
+        ]
     }
 }
 

@@ -12,11 +12,18 @@ final class ItemViewModel: Identifiable, ObservableObject {
     @Published var item: Item
     @Published var nameIsDuplicate: Bool = false
     @Published var newColors: [Item.Color] = []
+    @Published var route: Route?
     
     var id: Item.ID { self.item.id }
     
-    init(item: Item) {
+    // every navigation goes here
+    enum Route {
+        case colorPicker
+    }
+    
+    init(item: Item, route: Route? = nil) {
         self.item = item
+        self.route = route
         
         Task { @MainActor in
             // same as sink from publishers, but fancier
@@ -41,6 +48,10 @@ final class ItemViewModel: Identifiable, ObservableObject {
         self.newColors = [
             .init(name: "Pink", red: 1, green: 0.7, blue: 0.7)
         ]
+    }
+    
+    func setColorPickerNavigation(isActive: Bool) {
+        self.route = isActive ? .colorPicker : nil
     }
 }
 
@@ -118,7 +129,13 @@ struct ItemView: View {
                 TextField("Name", text: self.$viewModel.item.name)
                     .background(self.viewModel.nameIsDuplicate ? Color.red.opacity(0.1) : Color.clear)
                 
-                NavigationLink(destination: LazyView(ColorPickerView(viewModel: self.viewModel))) {
+                
+                NavigationLink(
+                    unwrap: self.$viewModel.route,
+                    case: /ItemViewModel.Route.colorPicker,
+                    onNavigate: self.viewModel.setColorPickerNavigation(isActive:),
+                    destination: { _ in LazyView(ColorPickerView(viewModel: self.viewModel)) }
+                ) {
                     HStack {
                         Text("Color")
                         Spacer()
@@ -132,6 +149,20 @@ struct ItemView: View {
                             .foregroundColor(.gray)
                     }
                 }
+//                NavigationLink(destination: LazyView(ColorPickerView(viewModel: self.viewModel))) {
+//                    HStack {
+//                        Text("Color")
+//                        Spacer()
+//                        if let color = self.viewModel.item.color {
+//                            Rectangle()
+//                                .frame(width: 30, height: 30)
+//                                .foregroundColor(color.swiftUIColor)
+//                                .border(Color.black, width: 1)
+//                        }
+//                        Text(viewModel.item.color?.name ?? "None")
+//                            .foregroundColor(.gray)
+//                    }
+//                }
                 
                 IfCaseLet(self.$viewModel.item.status, pattern: /Item.Status.inStock) {
                    $quantity in

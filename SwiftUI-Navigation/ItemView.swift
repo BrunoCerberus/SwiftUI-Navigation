@@ -18,6 +18,7 @@ final class ItemViewModel: Identifiable, ObservableObject {
         self.item = item
         
         Task { @MainActor in
+            // same as sink from publishers, but fancier
             for await item in self.$item.values {
                 try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 300)
                 self.nameIsDuplicate = item.name == "Keyboard"
@@ -105,13 +106,6 @@ struct ItemView: View {
             Form {
                 TextField("Name", text: self.$viewModel.item.name)
                     .background(self.viewModel.nameIsDuplicate ? Color.red.opacity(0.1) : Color.clear)
-//                    .onChange(of: viewModel.item.name, perform: { newName in
-//                        // TODO: Validation logic
-//                        Task { @MainActor in
-//                            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 300)
-//                            self.nameIsDuplicate = newName == "Keyboard"
-//                        }
-//                    })
                 
                 NavigationLink(destination: ColorPickerView(color: self.$viewModel.item.color)) {
                     HStack {

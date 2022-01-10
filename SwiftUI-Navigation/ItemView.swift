@@ -46,7 +46,6 @@ final class ItemViewModel: Identifiable, ObservableObject {
 
 struct ColorPickerView: View {
     @ObservedObject var viewModel: ItemViewModel
-//    @Binding var color: Item.Color?
     @Environment(\.dismiss) var dismiss
     
     var body: some View {

@@ -107,7 +107,7 @@ struct ItemView: View {
                 TextField("Name", text: self.$viewModel.item.name)
                     .background(self.viewModel.nameIsDuplicate ? Color.red.opacity(0.1) : Color.clear)
                 
-                NavigationLink(destination: ColorPickerView(color: self.$viewModel.item.color)) {
+                NavigationLink(destination: LazyView(ColorPickerView(color: self.$viewModel.item.color))) {
                     HStack {
                         Text("Color")
                         Spacer()

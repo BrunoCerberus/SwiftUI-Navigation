@@ -23,7 +23,16 @@ struct SwiftUI_NavigationApp: App {
                     .init(item: Item(name: "Headphones", color: .green, status: .outOfStock(isOnBackOrder: false))),
                 ],
                 route: nil
+                // deeplink samples
 //                route: .row(id: keyboard.id, route: .deleteAlert)
+                
+//                route: .row(
+//                    id: keyboard.id,
+//                    route: .edit(.init(
+//                        item: keyboard,
+//                        route: .colorPicker
+//                    ))
+//                )
             )
         )
         

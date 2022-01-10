@@ -11,6 +11,7 @@ import CasePaths
 final class ItemViewModel: Identifiable, ObservableObject {
     @Published var item: Item
     @Published var nameIsDuplicate: Bool = false
+    @Published var newColors: [Item.Color] = []
     
     var id: Item.ID { self.item.id }
     
@@ -25,13 +26,21 @@ final class ItemViewModel: Identifiable, ObservableObject {
             }
         }
     }
+    
+    func loadColors() async {
+        Task { @MainActor in
+            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 500)
+            self.newColors = [
+                .init(name: "Pink", red: 1, green: 0.7, blue: 0.7)
+            ]
+        }
+    }
 }
 
 struct ColorPickerView: View {
     @ObservedObject var viewModel: ItemViewModel
 //    @Binding var color: Item.Color?
     @Environment(\.dismiss) var dismiss
-    @State var newColors: [Item.Color] = []
     
     var body: some View {
         Form {
@@ -65,9 +74,9 @@ struct ColorPickerView: View {
                 }
             }
             
-            if !self.newColors.isEmpty {
+            if !self.viewModel.newColors.isEmpty {
                 Section(header: Text("New colors")) {
-                    ForEach(self.newColors, id: \.name) { color in
+                    ForEach(self.viewModel.newColors, id: \.name) { color in
                         Button(action: {
                             self.viewModel.item.color = color
                             self.dismiss()
@@ -85,12 +94,7 @@ struct ColorPickerView: View {
             }
         }
         .task {
-            Task { @MainActor in
-                try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 500)
-                self.newColors = [
-                    .init(name: "Pink", red: 1, green: 0.7, blue: 0.7)
-                ]
-            }
+            await viewModel.loadColors()
         }
     }
 }

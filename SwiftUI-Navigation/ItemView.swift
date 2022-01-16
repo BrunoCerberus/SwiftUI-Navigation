@@ -149,20 +149,6 @@ struct ItemView: View {
                             .foregroundColor(.gray)
                     }
                 }
-//                NavigationLink(destination: LazyView(ColorPickerView(viewModel: self.viewModel))) {
-//                    HStack {
-//                        Text("Color")
-//                        Spacer()
-//                        if let color = self.viewModel.item.color {
-//                            Rectangle()
-//                                .frame(width: 30, height: 30)
-//                                .foregroundColor(color.swiftUIColor)
-//                                .border(Color.black, width: 1)
-//                        }
-//                        Text(viewModel.item.color?.name ?? "None")
-//                            .foregroundColor(.gray)
-//                    }
-//                }
                 
                 IfCaseLet(self.$viewModel.item.status, pattern: /Item.Status.inStock) {
                    $quantity in

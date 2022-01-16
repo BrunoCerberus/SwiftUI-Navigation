@@ -120,7 +120,6 @@ struct ItemView: View {
     
     // The problem with @State that it takes initial values but not consider to
     // re-render screen with any changed of its value from outside
-//    @Binding var item: Item
     @ObservedObject var viewModel: ItemViewModel
     
     var body: some View {

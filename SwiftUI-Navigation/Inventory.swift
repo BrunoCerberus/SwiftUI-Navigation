@@ -199,8 +199,6 @@ struct InventoryView: View {
 
 struct InventoryView_Previews: PreviewProvider {
     static var previews: some View {
-        
-        let _ = Item(name: "Keyboard", color: .blue, status: .inStock(quantity: 100))
         NavigationView {
             InventoryView(
                 viewModel: InventoryViewModel(

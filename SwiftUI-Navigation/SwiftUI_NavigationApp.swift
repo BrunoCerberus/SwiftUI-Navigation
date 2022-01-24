@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct SwiftUI_NavigationApp: App {
     
-    let keyboard = Item(name: "Keyboard", color: .blue, status: .inStock(quantity: 100))
+    let keyboard: Item = Item(name: "Keyboard", color: .blue, status: .inStock(quantity: 100))
     
     var body: some Scene {
         let appViewModel: AppViewModel = AppViewModel(

@@ -37,10 +37,10 @@ struct ContentView: View {
             Button(action: { viewModel.selectedTab = .three }) {
                 Text("Goes to Tab 3")
             }
-                .tabItem {
-                    Text("One")
-                }
-                .tag(Tab.one)
+            .tabItem {
+                Text("One")
+            }
+            .tag(Tab.one)
             NavigationView {
                 InventoryView(viewModel: self.viewModel.inventoryViewModel)
             }

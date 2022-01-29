@@ -36,12 +36,12 @@ final class ItemViewModel: Identifiable, ObservableObject {
     
     @MainActor
     func loadColors() async {
-//        Task { @MainActor in
-//            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 500)
-//            self.newColors = [
-//                .init(name: "Pink", red: 1, green: 0.7, blue: 0.7)
-//            ]
-//        }
+        //        Task { @MainActor in
+        //            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 500)
+        //            self.newColors = [
+        //                .init(name: "Pink", red: 1, green: 0.7, blue: 0.7)
+        //            ]
+        //        }
         // OR
         
         try? await Task.sleep(nanoseconds: NSEC_PER_MSEC * 500)
@@ -150,7 +150,7 @@ struct ItemView: View {
                 }
                 
                 IfCaseLet(self.$viewModel.item.status, pattern: /Item.Status.inStock) {
-                   $quantity in
+                    $quantity in
                     
                     Section(header: Text("In Stock")) {
                         Stepper(
@@ -186,13 +186,13 @@ struct ItemView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ItemView(
-               viewModel: ItemViewModel(
-                item: Item(
-                    name: "",
-                    color: nil,
-                    status: .inStock(quantity: 1)
+                viewModel: ItemViewModel(
+                    item: Item(
+                        name: "",
+                        color: nil,
+                        status: .inStock(quantity: 1)
+                    )
                 )
-               )
             )
         }
         .preferredColorScheme(.dark)

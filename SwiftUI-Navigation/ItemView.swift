@@ -133,7 +133,7 @@ struct ItemView: View {
                     unwrap: self.$viewModel.route,
                     case: /ItemViewModel.Route.colorPicker,
                     onNavigate: self.viewModel.setColorPickerNavigation(isActive:),
-                    destination: { _ in LazyView(ColorPickerView(viewModel: self.viewModel)) }
+                    destination: { _ in ColorPickerView(viewModel: self.viewModel) }
                 ) {
                     HStack {
                         Text("Color")

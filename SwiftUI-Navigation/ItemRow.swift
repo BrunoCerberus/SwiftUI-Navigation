@@ -97,28 +97,26 @@ struct ItemRowView: View {
             case: /ItemRowViewModel.Route.edit,
             onNavigate: self.viewModel.setEditNavigation,
             destination: { $itemViewModel in
-                LazyView(
-                    ItemView(viewModel: itemViewModel)
-                        .navigationTitle("Edit")
-                        .navigationBarBackButtonHidden(true)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Cancel", action: viewModel.cancelButtonTapped)
-                            }
-                            
-                            ToolbarItem(placement: .primaryAction) {
-                                HStack {
-                                    if self.viewModel.isSaving {
-                                        ProgressView()
-                                    }
-                                    Button("Save") {
-                                        self.viewModel.edit(item: itemViewModel.item)
-                                    }
-                                }
-                                .disabled(self.viewModel.isSaving)
-                            }
+                ItemView(viewModel: itemViewModel)
+                    .navigationTitle("Edit")
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Cancel", action: viewModel.cancelButtonTapped)
                         }
-                )
+                        
+                        ToolbarItem(placement: .primaryAction) {
+                            HStack {
+                                if self.viewModel.isSaving {
+                                    ProgressView()
+                                }
+                                Button("Save") {
+                                    self.viewModel.edit(item: itemViewModel.item)
+                                }
+                            }
+                            .disabled(self.viewModel.isSaving)
+                        }
+                    }
             }
         ) {
             HStack {

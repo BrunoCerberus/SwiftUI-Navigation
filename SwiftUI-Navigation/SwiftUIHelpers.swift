@@ -219,7 +219,7 @@ extension NavigationLink {
         onNavigate: @escaping (Bool) -> Void,
         @ViewBuilder destination: @escaping (Binding<Case>) -> Wrapped,
         @ViewBuilder label: @escaping () -> Label
-    ) where Destination == Wrapped?
+    ) where Destination == LazyView<Wrapped>?
     {
         self.init(unwrap: optionalValue.case(casePath),
                   onNavigate: onNavigate,
@@ -233,13 +233,13 @@ extension NavigationLink {
         onNavigate: @escaping (Bool) -> Void,
         @ViewBuilder destination: @escaping (Binding<Value>) -> Wrapped,
         @ViewBuilder label: @escaping () -> Label
-    ) where Destination == Wrapped?
+    ) where Destination == LazyView<Wrapped>?
     {
         self.init(
             isActive: optionalValue.isPresent().didSet(onNavigate),
             destination: {
                 if let value = Binding(unwrap: optionalValue) {
-                    destination(value)
+                    LazyView(destination(value))
                 }
             },
             label: label

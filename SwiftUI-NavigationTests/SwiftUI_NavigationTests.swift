@@ -11,7 +11,7 @@ import CasePaths
 
 final class SwiftUI_NavigationTests: XCTestCase {
     
-    // TODO: Update testAddItem
+    // TODO: Update testAddItem Tests
     func testAddItem() throws {
         let viewModel = InventoryViewModel()
         
@@ -35,6 +35,7 @@ final class SwiftUI_NavigationTests: XCTestCase {
         XCTAssertEqual(viewModel.inventory[0].item, itemToAdd)
     }
     
+    // TODO: Update testDeleteItem Tests
     func testDeleteItem() {
         // we have an inventory with one item
         let viewModel = InventoryViewModel(

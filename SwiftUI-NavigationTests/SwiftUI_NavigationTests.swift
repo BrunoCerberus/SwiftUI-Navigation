@@ -9,8 +9,9 @@ import XCTest
 import CasePaths
 @testable import SwiftUI_Navigation
 
-// TODO: Update tests
 final class SwiftUI_NavigationTests: XCTestCase {
+    
+    // TODO: Update testAddItem
     func testAddItem() throws {
         let viewModel = InventoryViewModel()
         

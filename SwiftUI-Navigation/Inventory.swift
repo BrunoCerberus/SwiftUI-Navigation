@@ -118,8 +118,8 @@ final class InventoryViewModel: ObservableObject {
             .map { [id = itemRowViewModel.id] route in
                 guard
                     case let .row(id: routeRowId, route: route) = route, routeRowId == id else {
-                        return nil
-                    }
+                    return nil
+                }
                 return route
             }
             .removeDuplicates()
@@ -166,7 +166,7 @@ struct InventoryView: View {
                 self.viewModel.inventory,
                 content: ItemRowView.init
             )
-                .onDelete(perform: delete)
+            .onDelete(perform: delete)
         }
         .sheet(unwrap: $viewModel.route,
                case: /InventoryViewModel.Route.add

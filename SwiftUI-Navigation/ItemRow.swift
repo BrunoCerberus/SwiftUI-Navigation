@@ -36,9 +36,7 @@ final class ItemRowViewModel: Identifiable, ObservableObject {
     
     var id: Item.ID { self.item.id }
     
-    init(
-        item: Item
-    ) {
+    init(item: Item) {
         self.item = item
     }
     

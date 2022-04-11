@@ -79,12 +79,6 @@ final class ItemRowViewModel: Identifiable, ObservableObject {
     }
 }
 
-extension Item {
-    func duplicate() -> Self {
-        Self(name: self.name, color: self.color, status: self.status)
-    }
-}
-
 struct ItemRowView: View {
     @ObservedObject var viewModel: ItemRowViewModel
     

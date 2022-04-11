@@ -53,6 +53,12 @@ struct Item: Equatable, Identifiable {
     }
 }
 
+extension Item {
+    func duplicate() -> Self {
+        Self(name: self.name, color: self.color, status: self.status)
+    }
+}
+
 final class InventoryViewModel: ObservableObject {
     @Published var inventory: IdentifiedArrayOf<ItemRowViewModel>
     @Published var route: Route?

@@ -14,7 +14,7 @@ struct SwiftUI_NavigationApp: App {
     
     var body: some Scene {
         let appViewModel: AppViewModel = AppViewModel(
-            selectedTab: .inventory,
+            selectedTab: .one,
             inventoryViewModel: InventoryViewModel(
                 inventory: [
                     .init(item: keyboard),

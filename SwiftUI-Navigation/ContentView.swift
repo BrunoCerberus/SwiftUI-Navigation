@@ -5,56 +5,31 @@
 //  Created by bruno on 20/11/21.
 //
 
-import Parsing
+import URLRouting
 import SwiftUI
 
-struct DeepLinkRequest {
-    var pathComponents: ArraySlice<Substring>
-    var queryItem: [String: ArraySlice<Substring?>]
+enum AppRoute {
+  case one
+  case inventory
+  case three
 }
 
-extension DeepLinkRequest {
-    init(url: URL) {
-        
-        let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []
-        
-        self.init(
-            pathComponents: url.path.split(separator: "/")[...],
-            queryItem: queryItems.reduce(into: [:]) { dictionary, item in
-                dictionary[item.name, default: []].append(item.value?[...])
-            }
-        )
-    }
-}
 
-struct PathComponent: Parser {
-    let component: String
-    
-    init(_ component: String) {
-        self.component = component
-    }
-    
-    func parse(_ input: inout DeepLinkRequest) throws -> Void? {
-        guard input.pathComponents.first == self.component[...] else {
-            return nil
-        }
-        
-        input.pathComponents.removeFirst()
-        return ()
-    }
-}
+let appRouter = OneOf {
+  // GET /books
+  Route(.case(AppRoute.one)) {
+    Path { "one" }
+  }
 
-let deepLinker = AnyParser<URL, Tab> { url in
-    switch url.path {
-    case "/one":
-        return .one
-    case "/inventory":
-        return .inventory
-    case "/three":
-        return .three
-    default:
-        return .none
-    }
+  // GET /books/:id
+  Route(.case(AppRoute.inventory)) {
+    Path { "inventory" }
+  }
+
+  // GET /books/search?query=:query&count=:count
+  Route(.case(AppRoute.three)) {
+    Path { "three" }
+  }
 }
 
 enum Tab: Equatable {
@@ -77,11 +52,19 @@ final class AppViewModel: ObservableObject {
         self.inventoryViewModel = inventoryViewModel
     }
     
-    func open(url: URL) {
-        var url = url
-        if let tab = try? deepLinker.parse(&url) {
-            self.selectedTab = tab
-        }
+    func handleDeepLink(url: URL) {
+      switch try? appRouter.match(url: url) {
+      case .one:
+          self.selectedTab = .one
+
+      case .inventory:
+          self.selectedTab = .inventory
+
+      case .three:
+          self.selectedTab = .three
+      case .none:
+          break
+      }
     }
 }
 
@@ -114,7 +97,7 @@ struct ContentView: View {
         }
         .tabViewStyle(DefaultTabViewStyle())
         .onOpenURL { url in
-            self.viewModel.open(url: url)
+            self.viewModel.handleDeepLink(url: url)
         }
     }
 }
